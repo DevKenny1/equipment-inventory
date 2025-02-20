@@ -165,49 +165,4 @@
         </div>
     </div>
     <!-- links page -->
-
-    <!-- edit user modal -->
-    <div wire:ignore class="absolute top-0 left-0 z-40 hidden overflow-hidden size-full bg-black/50"
-        name="custom-edit-user-modal">
-        <div class="flex items-start p-4 overflow-y-auto size-full">
-            <form wire:submit.prevent="modifyUser"
-                class="p-4 mx-auto rounded-md shadow-md bg-zinc-50 w-[500px] flex flex-col gap-4">
-                <h1 class="text-xl font-bold text-center font-inter">Edit User</h1>
-                <div>
-                    <label for="username">Username</label>
-                    <x-bladewind::input wire:model.defer="username" id="username" placeholder="Enter username"
-                        add_clearing="false" size="small" />
-                    @error('username') <span class="text-red-500 text-small">{{ $message }}</span>@enderror
-                </div>
-
-                <div class="flex flex-col">
-                    <label for="role">Role</label>
-                    <select wire:model.defer="role" class="px-4 py-2 text-sm border-2 rounded-md border-zinc-200"
-                        id="role">
-                        <option value="0">Staff</option>
-                        <option value="1">Admin</option>
-                    </select>
-                </div>
-
-                <div class="flex flex-col">
-                    <label for="status">Status</label>
-                    <select wire:model.defer="status" class="px-4 py-2 text-sm border-2 rounded-md border-zinc-200"
-                        id="status">
-                        <option value="0">Inactive</option>
-                        <option value="1">Active</option>
-                    </select>
-                </div>
-                <div class="self-end">
-                    <x-bladewind::button button_text_css="font-bold" color="red" size="small"
-                        wire:click="closeEditUser('edit-user')">
-                        Close
-                    </x-bladewind::button>
-                    <x-bladewind::button can_submit="true" button_text_css="font-bold" size="small">
-                        Update
-                    </x-bladewind::button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- edit user modal -->
 </div>
