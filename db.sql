@@ -15,6 +15,7 @@ CREATE TABLE user(
 
 CREATE TABLE equipment_type(
 	equipment_type_id int(11) NOT NULL,
+    equipment_name VARCHAR(255) NOT NULL,
     description text
 );
 
@@ -24,7 +25,7 @@ CREATE TABLE equipment(
     brand VARCHAR(50),
     model VARCHAR(50),
     acquired_date timestamp NOT NULL,
-    currect_location_id int(11) NOT NULL,
+    current_location_id int(11) NOT NULL,
     serial_number VARCHAR(50),
     mr_no VARCHAR(50),
     person_accountable_id int(11) NOT NULL,

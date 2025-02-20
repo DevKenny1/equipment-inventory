@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 use Livewire\Component;
-use App\Models\User;
+use App\Models\EquipmentType;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -96,7 +96,7 @@ class EquipmentTypeTab extends Component
 
     public function mount()
     {
-        $this->totalUsers = User::count();
+        $this->totalEquipmentTypes = EquipmentType::count();
     }
 
     public function render()
