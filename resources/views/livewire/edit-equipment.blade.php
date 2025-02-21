@@ -2,8 +2,8 @@
     <div x-show="open" x-cloak
         class="absolute inset-0 top-0 left-0 z-40 flex items-start justify-center p-4 overflow-y-auto bg-black/50 size-full">
         <div class="p-6 rounded-lg bg-zinc-50 w-96">
-            <h2 class="mb-4 text-xl font-bold text-center">Add Equipment</h2>
-            <form wire:submit.prevent="createEquipment" class="flex flex-col gap-2">
+            <h2 class="mb-4 text-xl font-bold text-center">Edit Equipment</h2>
+            <form wire:submit.prevent="editEquipment" class="flex flex-col gap-2">
 
                 <div class="flex flex-col">
                     <label for="equipment_type" class="text-sm">Equipment Type</label>
@@ -49,30 +49,18 @@
 
                 <div class="flex flex-col">
                     <label for="employee_id" class="text-sm">Person Accountable</label>
-                    <select id="employee_id" wire:model.defer="employee_id"
+                    <select disabled id="employee_id" wire:model.defer="employee_id"
                         class="p-2 text-sm border-2 rounded-md border-zinc-200">
-                        <option value="">Select person accountable</option>
-                        @foreach ($employees as $employee)
-                            <option value="{{ $employee['employee_id'] }}">{{ strtoupper($employee['lastname']) }},
-                                {{ strtoupper($employee['firstname']) }}
-                            </option>
-                        @endforeach
+                        <option value="">{{ $name }}</option>
                     </select>
-                    @error('employee_id') <small class="text-red-500">{{ $message }}</small> @enderror
                 </div>
 
                 <div class="flex flex-col">
                     <label for="unit_id" class="text-sm">Current Location</label>
-                    <select id="unit_id" wire:model.defer="unit_id"
+                    <select disabled id="unit_id" wire:model.defer="unit_id"
                         class="p-2 text-sm border-2 rounded-md border-zinc-200">
-                        <option value="">Select current location</option>
-                        @foreach ($units as $unit)
-                            <option value="{{ $unit['unit_id'] }}">
-                                {{ $unit['unit_desc'] }}
-                            </option>
-                        @endforeach
+                        <option value="">{{ $unit_name }}</option>
                     </select>
-                    @error('unit_id') <small class="text-red-500">{{ $message }}</small> @enderror
                 </div>
 
                 <div>
@@ -96,7 +84,7 @@
                     </x-bladewind::button>
 
                     <x-bladewind::button class="w-full" can_submit="true" button_text_css="font-bold"
-                        size="small">Create
+                        size="small">Update
                     </x-bladewind::button>
                 </div>
             </form>

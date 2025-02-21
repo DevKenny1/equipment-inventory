@@ -72,9 +72,9 @@ class EquipmentTab extends Component
         $this->emit('openAddEquipment');
     }
 
-    public function editItem()
+    public function editItem($equipment_id)
     {
-        $this->emit('openEditEquipment');
+        $this->emit('openEditEquipment', $equipment_id);
     }
 
     // system default methods

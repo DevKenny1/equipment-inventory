@@ -8,14 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class EditEquipment extends Component
 {
-    public $equipment_type_id, $brand, $model, $serial_number, $mr_no, $employee_id, $acquired_date, $unit_id, $remarks;
+    public $equipment_id, $equipment_type_id, $brand, $model, $serial_number, $mr_no, $name, $acquired_date, $unit_name, $remarks;
     public $isOpen = false; // Track modal state
 
     protected $listeners = ['openEditEquipment']; // Listen for events from the table component
 
     public $equipment_types = [];
-    public $employees = [];
-    public $units = [];
 
     protected $rules = [
         'equipment_type_id' => 'required',
@@ -23,21 +21,17 @@ class EditEquipment extends Component
         'model' => 'max:50',
         'serial_number' => 'max:50',
         'acquired_date' => 'required',
-        'unit_id' => 'required',
-        'employee_id' => 'required',
     ];
 
     protected $messages = [
         "equipment_type_id.required" => "*Select equipment type",
         "acquired_date.required" => "*Select acquired date",
-        "unit_id.required" => "*Select current location",
-        "employee_id.required" => "*Select person accountable",
         "brand.max" => "*Brand too long",
         "model.max" => "*Model too long",
         "serial_number.max" => "*Serial number too long",
     ];
 
-    public function createEquipment()
+    public function editEquipment()
     {
         $this->brand = trim($this->brand);
         $this->model = trim($this->model);
@@ -47,25 +41,22 @@ class EditEquipment extends Component
 
         $this->validate();
 
-        $equipment = Equipment::create(
-            [
-                'equipment_type_id' => $this->equipment_type_id,
-                'brand' => $this->brand,
-                'model' => $this->model,
-                'acquired_date' => $this->acquired_date,
-                'current_location_id' => $this->unit_id,
-                'serial_number' => $this->serial_number,
-                'mr_no' => $this->mr_no,
-                'person_accountable_id' => $this->employee_id,
-                'remarks' => $this->remarks,
-            ]
-        );
+        $equipment = DB::table('equipment')
+            ->where('equipment_id', $this->equipment_id)->update([
+                    'equipment_type_id' => $this->equipment_type_id,
+                    'brand' => $this->brand,
+                    'model' => $this->model,
+                    'serial_number' => $this->serial_number,
+                    'mr_no' => $this->mr_no,
+                    'acquired_date' => $this->acquired_date,
+                    'remarks' => $this->remarks,
+                ]);
 
         if ($equipment) {
 
             $this->dispatchBrowserEvent('showNotification', [
-                'title' => 'New Equipment',
-                'message' => 'New equipment is successfully added in the database.',
+                'title' => 'Edit Equipment',
+                'message' => 'Equipment successfully updated',
                 'type' => 'success'
             ]);
 
@@ -80,14 +71,27 @@ class EditEquipment extends Component
 
     public function openEditEquipment($equipment_id)
     {
-        $this->populateEmployees();
-        $this->populateUnits();
         $this->populateEquipmentTypes();
 
-        // fetch equipment herr
+        $equipment = DB::connection('mysql')
+            ->table('equipment')
+            ->join('equipment_type', 'equipment.equipment_type_id', '=', 'equipment_type.equipment_type_id')
+            ->join('infosys.employee', 'equipment.person_accountable_id', '=', 'infosys.employee.employee_id')
+            ->join('infosys.unit', 'equipment.current_location_id', '=', 'infosys.unit.unit_id')
+            ->select('equipment.*', 'equipment_type.equipment_name', DB::raw("CONCAT(infosys.employee.lastname,', ', infosys.employee.firstname) as name"), 'infosys.unit.unit_desc', 'infosys.unit.unit_code')
+            ->where('equipment_id', $equipment_id)->first();
 
+        $this->equipment_id = $equipment_id;
+        $this->equipment_type_id = $equipment->equipment_type_id;
+        $this->brand = $equipment->brand;
+        $this->model = $equipment->model;
+        $this->serial_number = $equipment->serial_number;
+        $this->mr_no = $equipment->mr_no;
+        $this->name = $equipment->name;
+        $this->acquired_date = $equipment->acquired_date;
+        $this->unit_name = $equipment->unit_desc;
+        $this->remarks = $equipment->remarks;
         $this->isOpen = true;
-
     }
 
     public function closeModal()
@@ -95,22 +99,6 @@ class EditEquipment extends Component
         $this->isOpen = false;
         $this->resetErrorBag();
         $this->reset(); // Reset fields
-    }
-
-    public function populateEmployees()
-    {
-        $this->employees = DB::table('infosys.employee')
-            ->get()
-            ->map(fn($item) => (array) $item) // Convert to array
-            ->toArray();
-    }
-
-    public function populateUnits()
-    {
-        $this->units = DB::table('infosys.unit')
-            ->get()
-            ->map(fn($item) => (array) $item) // Convert to array
-            ->toArray();
     }
 
     public function populateEquipmentTypes()

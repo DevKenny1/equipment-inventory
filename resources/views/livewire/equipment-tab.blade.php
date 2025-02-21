@@ -141,7 +141,7 @@
 
                     <td>
                         @if (Auth::user()->role == 1)
-                            <button wire:click="">
+                            <button wire:click="editItem({{ $equipment->equipment_id }})">
                                 <x-bladewind::icon name="wrench-screwdriver" class="text-blue-900" />
                             </button>
                         @endif
