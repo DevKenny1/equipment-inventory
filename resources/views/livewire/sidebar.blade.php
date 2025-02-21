@@ -23,7 +23,7 @@
         <button :class="activeTab == 'equipment_types' && 'active-tab'"
             class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
             @click="activeTab = 'equipment_types'">
-            <x-bladewind::icon name="wrench-screwdriver" />
+            <x-bladewind::icon name="computer-desktop" />
             <span>Equipment Type</span>
         </button>
         <!-- Users -->

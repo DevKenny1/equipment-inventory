@@ -33,4 +33,5 @@
     <livewire:modify-user />
     <livewire:add-equipment-type />
     <livewire:edit-equipment-type />
+    <livewire:add-equipment />
 </x-app-layout>

@@ -11,11 +11,11 @@ class EquipmentTab extends Component
 {
     use WithPagination;
     public $searchString = '';
-    public $searchBy = '';
+    public $searchBy = 'brand';
     public $totalEquipments;
     public $itemPerPage = 10;
 
-    public $orderByString = '';
+    public $orderByString = 'acquired_date';
     public $orderBySort = 'desc';
 
     protected $listeners = ['refreshUsers' => 'refreshTable'];
@@ -34,12 +34,6 @@ class EquipmentTab extends Component
     {
         $this->searchString = "";
         $this->refreshTable();
-    }
-
-    public function openEditUser($user_id)
-    {
-
-        $this->emit('openEditUser', $user_id);
     }
 
     // setters
@@ -67,13 +61,15 @@ class EquipmentTab extends Component
             ->join('equipment_type', 'equipment.equipment_type_id', '=', 'equipment_type.equipment_type_id')
             ->join('infosys.employee', 'equipment.person_accountable_id', '=', 'infosys.employee.employee_id')
             ->join('infosys.unit', 'equipment.current_location_id', '=', 'infosys.unit.unit_id')
-            ->select('equipment.*', 'equipment_type.equipment_name', 'infosys.employee.firstname', 'infosys.employee.lastname', 'infosys.unit.unit_desc')
+            ->select('equipment.*', 'equipment_type.equipment_name', DB::raw("CONCAT(infosys.employee.lastname,', ', infosys.employee.firstname) as name"), 'infosys.unit.unit_desc')
+            ->where($this->searchBy, 'like', "$this->searchString%")
+            ->orderBy($this->orderByString, $this->orderBySort)
             ->paginate($this->itemPerPage);
     }
 
-    public function createNewUser()
+    public function addItem()
     {
-        return redirect()->route('create-user');
+        $this->emit('openAddEquipment');
     }
 
     // system default methods

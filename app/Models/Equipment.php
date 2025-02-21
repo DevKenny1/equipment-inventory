@@ -17,7 +17,7 @@ class Equipment extends Model
 
     protected $keyType = 'int'; // Specify primary key type
 
-    protected $fillable = ['equipment_type_id', 'brand', 'model', 'acquired_date', 'section_id', 'serial_number', 'mr_no', 'person_accountable_id', 'remarks'];
+    protected $fillable = ['equipment_type_id', 'brand', 'model', 'acquired_date', 'current_location_id', 'serial_number', 'mr_no', 'person_accountable_id', 'remarks'];
 
     public $timestamps = false;
 

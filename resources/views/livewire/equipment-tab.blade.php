@@ -13,23 +13,27 @@
             <x-bladewind::input focused placeholder="Search..." wire:model.defer="searchString" add_clearing="false"
                 size="regular" />
         </form>
-        <select class="px-4 py-1 rounded-md w-44 min-w-32" wire:model="searchBy">
-            <option value="lastname">Last name</option>
-            <option value="firstname">First name</option>
-            <option value="username">Username</option>
-            <option value="date_created">Created</option>
+        <select class="px-4 py-1 rounded-md w-44 min-w-48" wire:model="searchBy">
+            <option value="equipment_name">Equipment type</option>
+            <option value="brand">Brand</option>
+            <option value="model">Model</option>
+            <option value="serial_number">Serial number</option>
+            <option value="mr_no">MR NO</option>
+            <option value="lastname">Person accountable
+            </option>
+            <option value="acquired_date">Acquired Date</option>
+            <option value="unit_desc">Current location</option>
+            <option value="remarks">Remarks</option>
         </select>
         <x-bladewind::button button_text_css="font-bold" size="small"
             wire:click="clearSearchString()">Refresh</x-bladewind::button>
         @if (Auth::user()->role == 1)
-            <x-bladewind::button button_text_css="font-bold flex items-center gap-2" size="small"
-                wire:click="createNewUser()">
-                <x-bladewind::icon name="user-plus" type="solid" class="!w-4 !h-4" />
-                Add new user</x-bladewind::button>
+            <x-bladewind::button button_text_css="font-bold flex items-center gap-2" size="small" wire:click="addItem()">
+                <x-bladewind::icon name="plus" type="solid" class="!w-4 !h-4" />
+                Add New Item</x-bladewind::button>
         @endif
     </div>
     <!-- Search -->
-
     <!-- table -->
     <div class="overflow-y-auto grow font-jetbrains table-container">
         <x-bladewind::table has_border="true" divider="thin">
@@ -64,7 +68,7 @@
                 </th>
                 <th>
                     <div @class([
-                        'text-blue-500 font-bold' => $orderByString == 'person_accountable'
+                        'text-blue-500 font-bold' => $orderByString == 'name'
                     ])>PERSON ACCOUNTABLE
                     </div>
                 </th>
@@ -75,7 +79,7 @@
                 </th>
                 <th>
                     <div @class([
-                        'text-blue-500 font-bold' => $orderByString == 'current_location'
+                        'text-blue-500 font-bold' => $orderByString == 'unit_desc'
                     ])>CURRENT LOCATION
                     </div>
                 </th>
@@ -103,14 +107,6 @@
                     </td>
 
                     <td>
-                        {{ $equipment->acquired_date }}
-                    </td>
-
-                    <td>
-                        {{ $equipment->unit_desc }}
-                    </td>
-
-                    <td>
                         {{ $equipment->serial_number }}
                     </td>
 
@@ -119,7 +115,15 @@
                     </td>
 
                     <td>
-                        {{ $equipment->person_accountable_id }}
+                        {{ $equipment->name }}
+                    </td>
+
+                    <td>
+                        {{ $equipment->acquired_date }}
+                    </td>
+
+                    <td>
+                        {{ $equipment->unit_desc }}
                     </td>
 
                     <td>
@@ -145,7 +149,6 @@
         <!-- no data message -->
     </div>
     <!-- table -->
-
     <!-- links page -->
     <div>
         {{ $equipments->onEachSide(1)->links() }}
@@ -172,13 +175,16 @@
             <!-- sort by -->
             <div>
                 Sort by:
-                <select class="px-2 w-28" wire:model="orderByString">
-                    <option value="lastname">Last name</option>
-                    <option value="firstname">First name</option>
-                    <option value="username">Username</option>
-                    <option value="status">Status</option>
-                    <option value="role">Role</option>
-                    <option value="date_created">Created</option>
+                <select class="w-40 px-2" wire:model="orderByString">
+                    <option value="equipment_name">Equipment type</option>
+                    <option value="brand">Brand</option>
+                    <option value="model">Model</option>
+                    <option value="serial_number">Serial number</option>
+                    <option value="mr_no">MR NO</option>
+                    <option value="name">Person accountable</option>
+                    <option value="acquired_date">Acquired Date</option>
+                    <option value="unit_desc">Current location</option>
+                    <option value="remarks">Remarks</option>
                 </select>
             </div>
             <!-- sort by -->

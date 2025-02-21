@@ -22,7 +22,7 @@
         @if (Auth::user()->role == 1)
             <x-bladewind::button button_text_css="font-bold flex items-center gap-2" size="small"
                 wire:click="openAddEquipmentType()">
-                <x-bladewind::icon name="user-plus" type="solid" class="!w-4 !h-4" />
+                <x-bladewind::icon name="plus" type="solid" class="!w-4 !h-4" />
                 Add New Type</x-bladewind::button>
         @endif
     </div>

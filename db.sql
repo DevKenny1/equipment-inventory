@@ -24,7 +24,7 @@ CREATE TABLE equipment(
     equipment_type_id int(11) NOT NULL,
     brand VARCHAR(50),
     model VARCHAR(50),
-    acquired_date timestamp NOT NULL,
+    acquired_date date NOT NULL,
     current_location_id int(11) NOT NULL,
     serial_number VARCHAR(50),
     mr_no VARCHAR(50),
