@@ -6,12 +6,12 @@ use Livewire\Component;
 use App\Models\Equipment;
 use Illuminate\Support\Facades\DB;
 
-class AddEquipment extends Component
+class EditEquipment extends Component
 {
     public $equipment_type_id, $brand, $model, $serial_number, $mr_no, $employee_id, $acquired_date, $unit_id, $remarks;
     public $isOpen = false; // Track modal state
 
-    protected $listeners = ['openAddEquipment']; // Listen for events from the table component
+    protected $listeners = ['openEditEquipment']; // Listen for events from the table component
 
     public $equipment_types = [];
     public $employees = [];
@@ -78,11 +78,14 @@ class AddEquipment extends Component
         }
     }
 
-    public function openAddEquipment()
+    public function openEditEquipment($equipment_id)
     {
         $this->populateEmployees();
         $this->populateUnits();
         $this->populateEquipmentTypes();
+
+        // fetch equipment herr
+
         $this->isOpen = true;
 
     }
@@ -120,6 +123,6 @@ class AddEquipment extends Component
 
     public function render()
     {
-        return view('livewire.add-equipment');
+        return view('livewire.edit-equipment');
     }
 }

@@ -34,4 +34,5 @@
     <livewire:add-equipment-type />
     <livewire:edit-equipment-type />
     <livewire:add-equipment />
+    <livewire:edit-equipment />
 </x-app-layout>

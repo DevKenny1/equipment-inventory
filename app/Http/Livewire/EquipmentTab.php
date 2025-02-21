@@ -18,7 +18,7 @@ class EquipmentTab extends Component
     public $orderByString = 'acquired_date';
     public $orderBySort = 'desc';
 
-    protected $listeners = ['refreshUsers' => 'refreshTable'];
+    protected $listeners = ['refreshEquipment' => 'refreshTable'];
 
     public function refreshTable(): void
     {
@@ -61,7 +61,7 @@ class EquipmentTab extends Component
             ->join('equipment_type', 'equipment.equipment_type_id', '=', 'equipment_type.equipment_type_id')
             ->join('infosys.employee', 'equipment.person_accountable_id', '=', 'infosys.employee.employee_id')
             ->join('infosys.unit', 'equipment.current_location_id', '=', 'infosys.unit.unit_id')
-            ->select('equipment.*', 'equipment_type.equipment_name', DB::raw("CONCAT(infosys.employee.lastname,', ', infosys.employee.firstname) as name"), 'infosys.unit.unit_desc')
+            ->select('equipment.*', 'equipment_type.equipment_name', DB::raw("CONCAT(infosys.employee.lastname,', ', infosys.employee.firstname) as name"), 'infosys.unit.unit_desc', 'infosys.unit.unit_code')
             ->where($this->searchBy, 'like', "$this->searchString%")
             ->orderBy($this->orderByString, $this->orderBySort)
             ->paginate($this->itemPerPage);
@@ -70,6 +70,11 @@ class EquipmentTab extends Component
     public function addItem()
     {
         $this->emit('openAddEquipment');
+    }
+
+    public function editItem()
+    {
+        $this->emit('openEditEquipment');
     }
 
     // system default methods

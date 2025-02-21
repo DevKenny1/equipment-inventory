@@ -36,7 +36,7 @@
     <!-- Search -->
     <!-- table -->
     <div class="overflow-y-auto grow font-jetbrains table-container">
-        <x-bladewind::table has_border="true" divider="thin">
+        <x-bladewind::table has_border="true" divider="thin" celled="true">
             <x-slot name="header">
                 <th>
                     <div>#</div>
@@ -88,6 +88,7 @@
                         'text-blue-500 font-bold' => $orderByString == 'remarks'
                     ])>REMARKS</div>
                 </th>
+                <th>Transfer</th>
                 <th></th>
             </x-slot>
             @foreach ($equipments as $equipment)
@@ -123,11 +124,19 @@
                     </td>
 
                     <td>
-                        {{ $equipment->unit_desc }}
+                        {{ $equipment->unit_desc }}({{ $equipment->unit_code }})
                     </td>
 
                     <td>
                         {{ $equipment->remarks }}
+                    </td>
+
+                    <td>
+                        <div class="flex justify-center w-full">
+                            <button wire:click="">
+                                <x-bladewind::icon name="arrow-uturn-right" class="text-blue-900" />
+                            </button>
+                        </div>
                     </td>
 
                     <td>
