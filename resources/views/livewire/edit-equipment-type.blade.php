@@ -19,15 +19,22 @@
                     @error('description') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="flex gap-2 mt-2">
+                <div>
+                    <div class="flex gap-2 my-2">
+                        <x-bladewind::button x-on:click="open = false" outline="true" wire:click="deleteType"
+                            class="w-full" color="red" button_text_css="font-bold" size="small" outline="true">Delete
+                        </x-bladewind::button>
+
+                        <x-bladewind::button class="w-full" can_submit="true" button_text_css="font-bold"
+                            size="small">Update
+                        </x-bladewind::button>
+
+                    </div>
 
                     <x-bladewind::button x-on:click="open = false" wire:click="closeModal" class="w-full" color="red"
-                        button_text_css="font-bold" size="small" outline="true">Cancel
+                        button_text_css="font-bold" size="small">Close
                     </x-bladewind::button>
 
-                    <x-bladewind::button class="w-full" can_submit="true" button_text_css="font-bold"
-                        size="small">Update
-                    </x-bladewind::button>
                 </div>
             </form>
         </div>

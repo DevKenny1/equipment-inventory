@@ -35,7 +35,7 @@ CREATE TABLE equipment(
 CREATE TABLE equipment_transfer_history(
 	equipment_transfer_history_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	equipment_id int(11) NOT NULL,
-	date_of_transfer timestamp NOT NULL,
+	date_of_transfer date NOT NULL,
     transfer_person_accountable_id int(11) NOT NULL,
     transfer_location_id int(11) NOT NULL
 )

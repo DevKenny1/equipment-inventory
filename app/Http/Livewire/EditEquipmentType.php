@@ -73,6 +73,27 @@ class EditEquipmentType extends Component
         $this->reset(); // Reset fields
     }
 
+    public function deleteType()
+    {
+
+        $type = EquipmentType::destroy($this->equipment_type_id);
+
+        if ($type) {
+            $this->dispatchBrowserEvent('showNotification', [
+                'title' => 'Delete Equipment Type',
+                'message' => 'Equipment type is successfully deleted.',
+                'type' => 'success'
+            ]);
+
+            $this->closeModal();
+
+            // Emit event to table component to refresh data
+            $this->emit('refreshEquipmentTypes');
+
+            return;
+        }
+    }
+
     public function render()
     {
         return view('livewire.edit-equipment-type');

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Equipment;
+use App\Models\TransferHistory;
 use Illuminate\Support\Facades\DB;
 
 class AddEquipment extends Component
@@ -61,7 +62,16 @@ class AddEquipment extends Component
             ]
         );
 
-        if ($equipment) {
+        $transfer_equipment = TransferHistory::create(
+            [
+                'equipment_id' => $equipment->equipment_id,
+                'date_of_transfer' => now()->format('Y-m-d'),
+                'transfer_person_accountable_id' => $equipment->person_accountable_id,
+                'transfer_location_id' => $equipment->current_location_id,
+            ]
+        );
+
+        if ($equipment && $transfer_equipment) {
 
             $this->dispatchBrowserEvent('showNotification', [
                 'title' => 'New Equipment',
@@ -97,6 +107,7 @@ class AddEquipment extends Component
     public function populateEmployees()
     {
         $this->employees = DB::table('infosys.employee')
+            ->orderBy('lastname', 'asc')
             ->get()
             ->map(fn($item) => (array) $item) // Convert to array
             ->toArray();
@@ -105,6 +116,8 @@ class AddEquipment extends Component
     public function populateUnits()
     {
         $this->units = DB::table('infosys.unit')
+            ->join('infosys.division', 'infosys.division.division_id', '=', 'infosys.unit.unit_div')
+            ->select('infosys.unit.*', 'infosys.division.division_code') // Include necessary columns
             ->get()
             ->map(fn($item) => (array) $item) // Convert to array
             ->toArray();

@@ -32,14 +32,14 @@
 
     <!-- table -->
     <div class="overflow-y-auto grow font-jetbrains table-container">
-        <x-bladewind::table has_border="true" divider="thin">
+        <x-bladewind::table has_border="true" divider="thin" celled="true">
             <x-slot name="header">
                 <th>
                     <div>#</div>
                 </th>
                 <th>
                     <div @class([
-                        'text-blue-500 font-bold' => $orderByString == 'name'
+                        'text-blue-500 font-bold' => $orderByString == 'lastname'
                     ])>NAME</div>
                 </th>
                 <th>
@@ -144,8 +144,7 @@
             <div>
                 Sort by:
                 <select class="px-2 w-28" wire:model="orderByString">
-                    <option value="lastname">Last name</option>
-                    <option value="firstname">First name</option>
+                    <option value="lastname">Name</option>
                     <option value="username">Username</option>
                     <option value="status">Status</option>
                     <option value="role">Role</option>

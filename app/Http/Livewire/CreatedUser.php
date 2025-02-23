@@ -70,6 +70,7 @@ class CreatedUser extends Component
         $this->employees = DB::table('infosys.employee')->whereNotExists(function ($query) {
             $query->select(DB::raw(1))->from('equipmentinventory.user')->whereRaw('equipmentinventory.user.employee_id = infosys.employee.employee_id');
         })
+            ->orderBy('lastname', 'asc')
             ->get()
             ->map(fn($item) => (array) $item) // Convert to array
             ->toArray();

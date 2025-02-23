@@ -69,6 +69,26 @@ class EditEquipment extends Component
         }
     }
 
+    public function deleteEquipment()
+    {
+        $equipment = Equipment::destroy($this->equipment_id);
+
+        if ($equipment) {
+            $this->dispatchBrowserEvent('showNotification', [
+                'title' => 'Delete Equipment',
+                'message' => 'Equipment successfully deleted',
+                'type' => 'success'
+            ]);
+
+            $this->closeModal();
+
+            // Emit event to table component to refresh data
+            $this->emit('refreshEquipment');
+
+            return;
+        }
+    }
+
     public function openEditEquipment($equipment_id)
     {
         $this->populateEquipmentTypes();

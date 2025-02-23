@@ -1,8 +1,8 @@
 <x-app-layout>
     <!-- change the margin left of this main element based on the width of the sidebar -->
-    <main :class="isSidebarOpen ? 'ml-80' : 'ml-0'"
-        class="flex h-full [@media(max-width:940px)]:!ml-0 overflow-y-hidden"
-        x-data="{activeTab: 'equipment', isSidebarOpen: true}">
+    <main :class="isSidebarOpen ? '!ml-80' : '!ml-0'"
+        class="ml-80 flex h-full [@media(max-width:940px)]:!ml-0 overflow-y-hidden"
+        x-data="{activeTab: 'equipment', isSidebarOpen: false}">
         <x-sidebar-close-state />
         <livewire:sidebar />
         <div class="flex flex-col w-full h-full min-w-[940px]">
@@ -35,4 +35,6 @@
     <livewire:edit-equipment-type />
     <livewire:add-equipment />
     <livewire:edit-equipment />
+    <livewire:transfer-equipment />
+    <livewire:equipment-history />
 </x-app-layout>

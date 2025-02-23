@@ -1,4 +1,4 @@
-<div class="absolute top-0 left-0 z-10 flex flex-col h-full gap-8 py-4 pr-1 transition-transform border-r-2 w-80 bg-zinc-50 border-zinc-300"
+<div class="absolute top-0 left-0 z-10 flex flex-col h-full gap-8 py-4 pr-1 transition-transform border-r-2 hide-sidebar w-80 bg-zinc-50 border-zinc-300"
     :class="isSidebarOpen ? 'show-sidebar' : 'hide-sidebar'">
     <!-- Sidebar header -->
     <div class="flex items-center justify-between px-8">

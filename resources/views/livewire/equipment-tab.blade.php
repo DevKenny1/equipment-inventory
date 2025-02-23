@@ -1,4 +1,4 @@
-<div class="flex flex-col h-full gap-4 p-8">
+<div class="flex flex-col h-full gap-4 p-8" x-data="{isFilterOpen: false}">
     <!-- loading element -->
     <div wire:loading class="absolute top-0 left-0 z-50 bg-zinc-900/30 size-full">
         <div class="flex items-center justify-center h-full">
@@ -9,6 +9,51 @@
 
     <!-- Search -->
     <div class="flex items-center gap-4">
+        <!-- Filter -->
+        <div class="relative">
+            <button x-on:click="isFilterOpen = ! isFilterOpen">
+                <x-bladewind::icon name="adjustments-horizontal" class="!stroke-blue-600" />
+            </button>
+
+            <div x-show="isFilterOpen" class="absolute z-10 mt-2 border-2 border-blue-500 rounded-md bg-zinc-50">
+                <form wire:submit.prevent="filterTable" class="flex flex-col p-4 min-w-80">
+                    <div class="flex flex-col">
+                        <label for="employee_id" class="text-sm">Person Accountable</label>
+                        <select id="employee_id" wire:model.defer="personFilter"
+                            class="p-2 text-sm border-2 rounded-md border-zinc-200">
+                            <option value="">Select person accountable</option>
+                            @foreach ($employees as $employee)
+                                <option value="{{ $employee['employee_id'] }}">{{ strtoupper($employee['lastname']) }},
+                                    {{ strtoupper($employee['firstname']) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="unit_id" class="text-sm">Current Location</label>
+                        <select id="unit_id" wire:model.defer="locationFilter"
+                            class="p-2 text-sm border-2 rounded-md border-zinc-200">
+                            <option value="">Select current location</option>
+                            @foreach ($units as $unit)
+                                <option value="{{ $unit['unit_id'] }}">
+                                    {{ $unit['unit_desc'] }}({{ $unit['unit_code'] }})[{{ $unit['division_code'] }}]
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="acquired_date" class="text-sm">Acquired Date</label>
+                        <x-bladewind::input type="date" size="small" add_clearing="false" wire:model.defer="dateFilter"
+                            id="acquired_date" />
+                    </div>
+
+                    <x-bladewind::button size="small" can_submit="true" class="w-full mt-2">Save</x-bladewind::button>
+                </form>
+            </div>
+        </div>
+        <!-- Filter -->
         <form wire:submit.prevent="searchFilter" class="grow">
             <x-bladewind::input focused placeholder="Search..." wire:model.defer="searchString" add_clearing="false"
                 size="regular" />
@@ -25,6 +70,7 @@
             <option value="unit_desc">Current location</option>
             <option value="remarks">Remarks</option>
         </select>
+
         <x-bladewind::button button_text_css="font-bold" size="small"
             wire:click="clearSearchString()">Refresh</x-bladewind::button>
         @if (Auth::user()->role == 1)
@@ -43,7 +89,7 @@
                 </th>
                 <th>
                     <div @class([
-                        'text-blue-500 font-bold' => $orderByString == 'equipment_type'
+                        'text-blue-500 font-bold' => $orderByString == 'equipment_name'
                     ])>EQUIPMENT TYPE</div>
                 </th>
                 <th>
@@ -74,7 +120,7 @@
                 </th>
                 <th>
                     <div @class([
-                        'text-blue-500 font-bold' => $orderByString == 'acquired_date'
+                        'text-blue-500 font-bold' => $orderByString == 'equipment_id'
                     ])>ACQUIRED DATE</div>
                 </th>
                 <th>
@@ -88,7 +134,8 @@
                         'text-blue-500 font-bold' => $orderByString == 'remarks'
                     ])>REMARKS</div>
                 </th>
-                <th>Transfer</th>
+                <th></th>
+                <th></th>
                 <th></th>
             </x-slot>
             @foreach ($equipments as $equipment)
@@ -124,7 +171,7 @@
                     </td>
 
                     <td>
-                        {{ $equipment->unit_desc }}({{ $equipment->unit_code }})
+                        {{ $equipment->unit_desc }}({{ $equipment->unit_code }})[{{ $equipment->division_code }}]
                     </td>
 
                     <td>
@@ -133,7 +180,15 @@
 
                     <td>
                         <div class="flex justify-center w-full">
-                            <button wire:click="">
+                            <button wire:click="openEquipmentHistory({{ $equipment->equipment_id }})">
+                                <x-bladewind::icon name="clock" class="text-blue-900" />
+                            </button>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="flex justify-center w-full">
+                            <button wire:click="transferEquipment({{ $equipment->equipment_id }})">
                                 <x-bladewind::icon name="arrow-uturn-right" class="text-blue-900" />
                             </button>
                         </div>
@@ -206,6 +261,10 @@
                 </select>
             </div>
             <!-- sort order -->
+            <!-- download -->
+            <x-bladewind::button class="ml-auto" color="green"
+                button_text_css="font-bold" wire:click="downloadTable">download</x-bladewind::button>
+            <!-- download -->
         </div>
     </div>
     <!-- links page -->

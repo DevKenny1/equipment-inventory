@@ -30,7 +30,7 @@
 
     <!-- table -->
     <div class="overflow-y-auto grow font-jetbrains table-container">
-        <x-bladewind::table has_border="true" divider="thin">
+        <x-bladewind::table has_border="true" divider="thin" celled="true">
             <x-slot name="header">
                 <th>
                     <div>#</div>
