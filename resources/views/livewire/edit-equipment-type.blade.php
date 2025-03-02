@@ -1,4 +1,4 @@
-<div x-data="{ open: @entangle('isOpen') }">
+<div x-data="{ open: @entangle('isOpen'), confirmDelete: false }">
     <div x-show="open" x-cloak
         class="absolute inset-0 top-0 left-0 z-40 flex items-start justify-center p-4 overflow-y-auto bg-black/50 size-full">
         <div class="p-6 rounded-lg bg-zinc-50 w-96">
@@ -21,19 +21,38 @@
 
                 <div>
                     <div class="flex gap-2 my-2">
-                        <x-bladewind::button x-on:click="open = false" outline="true" wire:click="deleteType"
+                        <x-bladewind::button x-on:click="open = false" outline="true" x-on:click="confirmDelete = true"
                             class="w-full" color="red" button_text_css="font-bold" size="small" outline="true">Delete
                         </x-bladewind::button>
 
                         <x-bladewind::button class="w-full" can_submit="true" button_text_css="font-bold"
                             size="small">Update
                         </x-bladewind::button>
-
                     </div>
 
                     <x-bladewind::button x-on:click="open = false" wire:click="closeModal" class="w-full" color="red"
                         button_text_css="font-bold" size="small">Close
                     </x-bladewind::button>
+
+                </div>
+
+                <div x-show="confirmDelete"
+                    class="absolute inset-0 top-0 left-0 z-50 flex items-start justify-center p-4 overflow-y-auto bg-black/50 size-full">
+                    <div class="p-6 rounded-lg bg-zinc-50 w-96">
+
+                        <h1 class="my-2 text-2xl font-bold text-center font-inter">Confirm Delete</h1>
+
+                        <div class="flex flex-col gap-2">
+                            <x-bladewind::button x-on:click="open = false" outline="true" wire:click="deleteType"
+                                x-on:click="confirmDelete = false" class="w-full" color="red"
+                                button_text_css="font-bold" size="small" outline="true">Delete
+                            </x-bladewind::button>
+                            <x-bladewind::button x-on:click="open = false" x-on:click="confirmDelete = false"
+                                class="w-full" color="red" button_text_css="font-bold" size="small">Cancel
+                                </x-bla.dewind::button>
+                        </div>
+
+                    </div>
 
                 </div>
             </form>

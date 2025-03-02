@@ -47,7 +47,9 @@
                         'text-blue-500 font-bold' => $orderByString == 'description'
                     ])>DESCRIPTION</div>
                 </th>
-                <th></th>
+                @if (Auth::user()->role == 1)
+                    <th></th>
+                @endif
             </x-slot>
             @foreach ($equipmentTypes as $equipment_type)
                 <tr>
@@ -58,13 +60,13 @@
                     <td>
                         {{ $equipment_type->description }}
                     </td>
-                    <td>
-                        @if (Auth::user()->role == 1)
+                    @if (Auth::user()->role == 1)
+                        <td>
                             <button wire:click="openEditEquipmentType({{ $equipment_type->equipment_type_id }})">
                                 <x-bladewind::icon name="wrench-screwdriver" class="text-blue-900" />
                             </button>
-                        @endif
-                    </td>
+                        </td>
+                    @endif
             @endforeach 
         </x-bladewind::table>
 

@@ -21,7 +21,7 @@
                         <label for="employee_id" class="text-sm">Person Accountable</label>
                         <select id="employee_id" wire:model.defer="personFilter"
                             class="p-2 text-sm border-2 rounded-md border-zinc-200">
-                            <option value="">Select person accountable</option>
+                            <option value="">All</option>
                             @foreach ($employees as $employee)
                                 <option value="{{ $employee['employee_id'] }}">{{ strtoupper($employee['lastname']) }},
                                     {{ strtoupper($employee['firstname']) }}
@@ -34,7 +34,7 @@
                         <label for="unit_id" class="text-sm">Current Location</label>
                         <select id="unit_id" wire:model.defer="locationFilter"
                             class="p-2 text-sm border-2 rounded-md border-zinc-200">
-                            <option value="">Select current location</option>
+                            <option value="">All</option>
                             @foreach ($units as $unit)
                                 <option value="{{ $unit['unit_id'] }}">
                                     {{ $unit['unit_desc'] }}({{ $unit['unit_code'] }})[{{ $unit['division_code'] }}]
@@ -49,7 +49,7 @@
                             id="acquired_date" />
                     </div>
 
-                    <x-bladewind::button size="small" can_submit="true" class="w-full mt-2">Save</x-bladewind::button>
+                    <x-bladewind::button size="small" can_submit="true" class="w-full mt-2">Filter</x-bladewind::button>
                 </form>
             </div>
         </div>
@@ -58,6 +58,7 @@
             <x-bladewind::input focused placeholder="Search..." wire:model.defer="searchString" add_clearing="false"
                 size="regular" />
         </form>
+
         <select class="px-4 py-1 rounded-md w-44 min-w-48" wire:model="searchBy">
             <option value="equipment_name">Equipment type</option>
             <option value="brand">Brand</option>
@@ -135,8 +136,10 @@
                     ])>REMARKS</div>
                 </th>
                 <th></th>
-                <th></th>
-                <th></th>
+                @if (Auth::user()->role == 1)
+                    <th></th>
+                    <th></th>
+                @endif
             </x-slot>
             @foreach ($equipments as $equipment)
                 <tr>
@@ -185,22 +188,22 @@
                             </button>
                         </div>
                     </td>
+                    @if (Auth::user()->role == 1)
 
-                    <td>
-                        <div class="flex justify-center w-full">
-                            <button wire:click="transferEquipment({{ $equipment->equipment_id }})">
-                                <x-bladewind::icon name="arrow-uturn-right" class="text-blue-900" />
-                            </button>
-                        </div>
-                    </td>
+                        <td>
+                            <div class="flex justify-center w-full">
+                                <button wire:click="transferEquipment({{ $equipment->equipment_id }})">
+                                    <x-bladewind::icon name="arrow-uturn-right" class="text-blue-900" />
+                                </button>
+                            </div>
+                        </td>
 
-                    <td>
-                        @if (Auth::user()->role == 1)
+                        <td>
                             <button wire:click="editItem({{ $equipment->equipment_id }})">
                                 <x-bladewind::icon name="wrench-screwdriver" class="text-blue-900" />
                             </button>
-                        @endif
-                    </td>
+                        </td>
+                    @endif
             @endforeach
         </x-bladewind::table>
 
@@ -262,8 +265,10 @@
             </div>
             <!-- sort order -->
             <!-- download -->
-            <x-bladewind::button class="ml-auto" color="green"
-                button_text_css="font-bold" wire:click="downloadTable">download</x-bladewind::button>
+            @if (count($equipments))
+                <x-bladewind::button class="ml-auto" color="green" button_text_css="font-bold"
+                    wire:click="downloadTable">download</x-bladewind::button>
+            @endif
             <!-- download -->
         </div>
     </div>

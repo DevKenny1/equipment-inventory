@@ -98,11 +98,9 @@
                             <td>{{ $user->date_created }}</td>
 
                             <td>
-                                @if (Auth::user()->role == 1)
-                                    <button wire:click="openEditUser({{ $user->user_id }})">
-                                        <x-bladewind::icon name="wrench-screwdriver" class="text-blue-900" />
-                                    </button>
-                                @endif
+                                <button wire:click="openEditUser({{ $user->user_id }})">
+                                    <x-bladewind::icon name="wrench-screwdriver" class="text-blue-900" />
+                                </button>
                             </td>
             @endforeach
         </x-bladewind::table>

@@ -18,10 +18,12 @@
             <x-bladewind::icon name="computer-desktop" />
         </button>
         <!-- Users -->
-        <button :class="activeTab == 'users' && 'active-tab'"
-            class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'users'">
-            <x-bladewind::icon name="users" />
-        </button>
+        @if (Auth::user()->role == 1)
+            <button :class="activeTab == 'users' && 'active-tab'"
+                class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
+                @click="activeTab = 'users'">
+                <x-bladewind::icon name="users" />
+            </button>
+        @endif
     </div>
 </div>
