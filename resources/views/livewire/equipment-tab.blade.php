@@ -136,8 +136,8 @@
                     ])>REMARKS</div>
                 </th>
                 <th></th>
+                <th></th>
                 @if (Auth::user()->role == 1)
-                    <th></th>
                     <th></th>
                 @endif
             </x-slot>
@@ -188,15 +188,15 @@
                             </button>
                         </div>
                     </td>
-                    @if (Auth::user()->role == 1)
 
-                        <td>
-                            <div class="flex justify-center w-full">
-                                <button wire:click="transferEquipment({{ $equipment->equipment_id }})">
-                                    <x-bladewind::icon name="arrow-uturn-right" class="text-blue-900" />
-                                </button>
-                            </div>
-                        </td>
+                    <td>
+                        <div class="flex justify-center w-full">
+                            <button wire:click="transferEquipment({{ $equipment->equipment_id }})">
+                                <x-bladewind::icon name="arrow-uturn-right" class="text-blue-900" />
+                            </button>
+                        </div>
+                    </td>
+                    @if (Auth::user()->role == 1)
 
                         <td>
                             <button wire:click="editItem({{ $equipment->equipment_id }})">
