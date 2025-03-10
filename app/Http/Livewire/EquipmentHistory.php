@@ -43,7 +43,6 @@ class EquipmentHistory extends Component
 
     public function closeModal()
     {
-        $this->resetPage();
         $this->isOpen = false;
     }
 

@@ -89,7 +89,7 @@
                     </div>
                     <!-- sort order -->
                     <!-- close button -->
-                    <x-bladewind::button wire:click="closeModal" size="small" button_text_css="font-bold"
+                    <x-bladewind::button x-on:click="open = false" size="small" button_text_css="font-bold"
                         class="ml-auto">
                         close
                     </x-bladewind::button>
