@@ -92,6 +92,8 @@ class TransferEquipment extends Component
     public function populateUnits()
     {
         $this->units = DB::table('infosys.unit')
+            ->leftJoin('infosys.division', 'infosys.division.division_id', '=', 'infosys.unit.unit_div')
+            ->select('infosys.unit.*', 'infosys.division.division_code') // Include necessary columns
             ->get()
             ->map(fn($item) => (array) $item) // Convert to array
             ->toArray();

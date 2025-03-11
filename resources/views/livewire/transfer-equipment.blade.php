@@ -41,7 +41,7 @@
                         <option value="">Select current location</option>
                         @foreach ($units as $unit)
                             <option value="{{ $unit['unit_id'] }}">
-                                {{ $unit['unit_desc'] }}
+                                {{ $unit['unit_desc'] }}({{ $unit['unit_code'] }})[{{ $unit['division_code'] }}]
                             </option>
                         @endforeach
                     </select>

@@ -62,7 +62,7 @@ class EquipmentTab extends Component
     public function populateUnits()
     {
         $this->units = DB::table('infosys.unit')
-            ->join('infosys.division', 'infosys.division.division_id', '=', 'infosys.unit.unit_div')
+            ->leftJoin('infosys.division', 'infosys.division.division_id', '=', 'infosys.unit.unit_div')
             ->select('infosys.unit.*', 'infosys.division.division_code') // Include necessary columns
             ->get()
             ->map(fn($item) => (array) $item) // Convert to array
@@ -117,8 +117,8 @@ class EquipmentTab extends Component
             ->table('equipment')
             ->join('equipment_type', 'equipment.equipment_type_id', '=', 'equipment_type.equipment_type_id')
             ->join('infosys.employee', 'equipment.person_accountable_id', '=', 'infosys.employee.employee_id')
-            ->join('infosys.unit', 'equipment.current_location_id', '=', 'infosys.unit.unit_id')
-            ->join('infosys.division', 'infosys.division.division_id', '=', 'infosys.unit.unit_div')
+            ->leftJoin('infosys.unit', 'equipment.current_location_id', '=', 'infosys.unit.unit_id')
+            ->leftJoin('infosys.division', 'infosys.division.division_id', '=', 'infosys.unit.unit_div')
             ->select(
                 'equipment.*',
                 'equipment_type.equipment_name',
