@@ -37,4 +37,5 @@
     <livewire:edit-equipment />
     <livewire:transfer-equipment />
     <livewire:equipment-history />
+    <livewire:change-logged-user-password />
 </x-app-layout>

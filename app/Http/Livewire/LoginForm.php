@@ -38,11 +38,17 @@ class LoginForm extends Component
             $this->addError("username", "*Username does not exists.");
             return;
         }
-        // check password if it has user
+        // check password if match
         if (!Hash::check($this->password, $user->password)) {
+            // run if not matched
             $this->addError("password", "*Password incorrect.");
             return;
+        } else if ($user->status == "0") {
+            // run if user is inactive
+            $this->addError("username", "*Account is inactive.");
+            return;
         } else {
+            // run if matched and user is active
             Auth::login($user);
             redirect()->intended("dashboard");
         }

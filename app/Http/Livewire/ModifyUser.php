@@ -10,8 +10,10 @@ use Illuminate\Support\Facades\Hash;
 
 class ModifyUser extends Component
 {
+
     public $current_username;
-    public $user_id, $username, $status, $role, $password = '';
+    public $logged_in_employee_id;
+    public $user_id, $username, $status, $role, $password, $employee_id = '';
     public $isOpen = false; // Track modal state
 
     protected $listeners = ['openEditUser']; // Listen for events from the table component
@@ -31,6 +33,8 @@ class ModifyUser extends Component
     {
         $user = User::find($user_id);
         if ($user) {
+            $this->logged_in_employee_id = Auth::user()->employee_id;
+            $this->employee_id = $user->employee_id;
             $this->user_id = $user->user_id;
             $this->username = $user->username;
             $this->current_username = $user->username;
