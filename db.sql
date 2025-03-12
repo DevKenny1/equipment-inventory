@@ -14,9 +14,16 @@ CREATE TABLE user(
 );
 
 CREATE TABLE equipment_type(
-	equipment_type_id int(11) NOT NULL,
-    equipment_name VARCHAR(255) NOT NULL,
-    description text
+	equipment_type_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	equipment_name VARCHAR(255) NOT NULL,
+    status tinyint(1) NOT NULL DEFAULT '1',
+	description text
+);
+
+CREATE TABLE location(
+	location_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	status tinyint(1) NOT NULL DEFAULT '1',
+    description VARCHAR(255)
 );
 
 CREATE TABLE equipment(
@@ -25,10 +32,11 @@ CREATE TABLE equipment(
     brand VARCHAR(50),
     model VARCHAR(50),
     acquired_date date NOT NULL,
-    current_location_id int(11) NOT NULL,
+    location_id int(11) NOT NULL,
     serial_number VARCHAR(50),
     mr_no VARCHAR(50),
     person_accountable_id int(11) NOT NULL,
+    person_accountalbe_location int(11) NOT NULL,
     remarks text
 );
 
