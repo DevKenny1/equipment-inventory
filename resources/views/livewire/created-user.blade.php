@@ -1,10 +1,10 @@
 <div class="flex flex-col size-full">
     <!-- loading element -->
-    <div wire:loading class="absolute top-0 left-0 z-50 bg-zinc-900/30 size-full">
+    <!-- <div wire:loading class="absolute top-0 left-0 z-50 bg-zinc-900/30 size-full">
         <div class="flex items-center justify-center h-full">
             <x-bladewind::spinner size="omg" color="blue" />
         </div>
-    </div>
+    </div> -->
     <!-- loading element -->
     <livewire:navbar />
     <div class="flex flex-col px-8 py-4 overflow-hidden grow ">
@@ -32,19 +32,49 @@
                         @error('username') <small class="text-red-500">{{ $message }}</small> @enderror
                     </div>
                     <!-- employee -->
-                    <div class="flex flex-col">
+                    <div x-data="{ search: '', selectedEmployee: '', employeeId: '', showDropdown: false }">
                         <label for="employee" class="font-bold text-zinc-500">Employee</label>
-                        <select id="employee" wire:model.defer="employee_id"
-                            class="p-2 text-sm border-2 rounded-md border-zinc-200">
-                            <option value="">Select Employee</option>
-                            @foreach ($employees as $employee)
-                                <option value="{{ $employee['employee_id'] }}">{{ strtoupper($employee['lastname']) }},
-                                    {{ strtoupper($employee['firstname']) }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('employee_id') <small class="text-red-500">{{ $message }}</small> @enderror
+
+                        <!-- Custom Select -->
+                        <div class="relative">
+                            <div @click="showDropdown = !showDropdown"
+                                class="w-full p-2 text-sm bg-white border-2 rounded-md cursor-pointer border-zinc-200">
+                                <span x-text="selectedEmployee ? selectedEmployee : 'Select Employee'"></span>
+                            </div>
+
+                            <!-- Dropdown -->
+                            <div x-show="showDropdown" @click.away="showDropdown = false"
+                                class="absolute z-10 w-full h-40 mt-1 overflow-auto bg-white border border-gray-200 rounded-md shadow-md">
+
+                                <!--  ADDED: Search Input -->
+                                <input type="text" x-model="search" placeholder="Search Employee..."
+                                    class="w-full p-2 text-sm border-b border-gray-200">
+
+                                <!--  ADDED: Filtered Options -->
+                                <template
+                                    x-for="employee in {{ json_encode($employees) }}.filter(e => e.lastname.toLowerCase().includes(search.toLowerCase()) || e.firstname.toLowerCase().includes(search.toLowerCase()))"
+                                    :key="employee . employee_id">
+                                    <div @click="
+                        selectedEmployee = `${employee.lastname.toUpperCase()}, ${employee.firstname.toUpperCase()}`;
+                        employeeId = employee.employee_id;
+                        showDropdown = false;
+                        $wire.set('employee_id', employee.employee_id);
+                    " class="p-2 cursor-pointer hover:bg-gray-100">
+                                        <span
+                                            x-text="`${employee.lastname.toUpperCase()}, ${employee.firstname.toUpperCase()}`"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!--  ADDED: Hidden Input to Sync Livewire -->
+                        <input type="hidden" x-model.defer="employeeId" wire:model.defer="employee_id">
+
+                        @error('employee_id') 
+                            <small class="text-red-500">{{ $message }}</small>
+                        @enderror
                     </div>
+
                     <!-- role -->
                     <div class="flex flex-col">
                         <label for="role" class="font-bold text-zinc-500">Role</label>

@@ -5,7 +5,6 @@ use Livewire\Component;
 use App\Models\Equipment;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use App\Exports\EquipmentExport;
 use Maatwebsite\Excel\Facades\Excel;
 

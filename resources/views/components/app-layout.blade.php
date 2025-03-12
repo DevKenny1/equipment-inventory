@@ -16,6 +16,7 @@
 <body class="w-screen h-screen overflow-hidden">
     {{ $slot }}
     <x-bladewind::notification />
+    <livewire:change-logged-user-password />
     @livewireScripts
     <script>
         window.addEventListener('showNotification', function (event) {
@@ -39,7 +40,9 @@
         window.addEventListener('scrollToTop', () => {
             document.querySelector('.table-container').scrollTo({ top: 0, behavior: 'auto' });
         });
+
     </script>
+
 </body>
 
 </html>

@@ -19,12 +19,19 @@
             <x-bladewind::icon name="archive-box" />
             <span>Items</span>
         </button>
+        <!-- Locations -->
+        <button :class="activeTab == 'location' && 'active-tab'"
+            class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
+            @click="activeTab = 'location'">
+            <x-bladewind::icon name="map-pin" />
+            <span>Locations</span>
+        </button>
         <!-- Equipment Type -->
         <button :class="activeTab == 'equipment_types' && 'active-tab'"
             class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
             @click="activeTab = 'equipment_types'">
             <x-bladewind::icon name="computer-desktop" />
-            <span>Equipment Type</span>
+            <span>Equipment Types</span>
         </button>
         <!-- Users -->
         @if (Auth::user()->role == 1)

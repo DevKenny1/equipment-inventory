@@ -10,16 +10,21 @@
             <div class="p-4 overflow-hidden grow">
                 <div class="h-full border-4 rounded-lg bg-zinc-50 border-zinc-300">
                     <!-- panels -->
-                    <!-- users -->
+                    <!-- equipment -->
                     <div class="size-full" x-show="activeTab == 'equipment'">
                         <livewire:equipment-tab />
                     </div>
-                    <!-- users -->
-                    <!-- users -->
+                    <!-- equipment -->
+                    <!-- location -->
+                    <div class="size-full" x-show="activeTab == 'location'">
+                        <livewire:location-tab />
+                    </div>
+                    <!-- location -->
+                    <!-- equipment types -->
                     <div class="size-full" x-show="activeTab == 'equipment_types'">
                         <livewire:equipment-type-tab />
                     </div>
-                    <!-- users -->
+                    <!-- equipment types -->
                     <!-- users -->
                     <div class="size-full" x-show="activeTab == 'users'">
                         <livewire:users-tab />
@@ -37,5 +42,6 @@
     <livewire:edit-equipment />
     <livewire:transfer-equipment />
     <livewire:equipment-history />
-    <livewire:change-logged-user-password />
+    <livewire:add-location />
+    <livewire:edit-location />
 </x-app-layout>

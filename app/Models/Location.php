@@ -5,19 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EquipmentType extends Model
+
+class Location extends Model
 {
     use HasFactory;
 
-    protected $table = 'equipment_type'; // Define the correct table name
+    protected $table = 'location'; // Define the correct table name
 
-    protected $primaryKey = 'equipment_type_id'; // Set primary key if not 'id'
+    protected $primaryKey = 'location_id'; // Set primary key if not 'id'
 
     public $incrementing = true; // Ensure auto-incrementing is enabled
 
     protected $keyType = 'int'; // Specify primary key type
 
-    protected $fillable = ['equipment_name', 'description', 'status'];
+    protected $fillable = ['status', 'description'];
 
     public $timestamps = false;
 

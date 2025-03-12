@@ -85,4 +85,6 @@ class CreatedUser extends Component
     {
         return view('livewire.created-user');
     }
+
+
 }

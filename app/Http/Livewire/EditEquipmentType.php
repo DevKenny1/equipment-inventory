@@ -7,7 +7,7 @@ use App\Models\EquipmentType;
 
 class EditEquipmentType extends Component
 {
-    public $equipment_type_id, $equipment_name, $description;
+    public $equipment_type_id, $equipment_name, $description, $status;
     public $isOpen = false; // Track modal state
 
     protected $listeners = ['openEditEquipmentType']; // Listen for events from the table component
@@ -34,7 +34,8 @@ class EditEquipmentType extends Component
         $equipment_type = EquipmentType::where("equipment_type_id", $this->equipment_type_id)->update(
             [
                 'equipment_name' => $this->equipment_name,
-                'description' => $this->description
+                'description' => $this->description,
+                'status' => $this->status
             ]
         );
 
@@ -61,6 +62,7 @@ class EditEquipmentType extends Component
             $equipment_type = EquipmentType::find($equipment_type_id);
             $this->equipment_name = $equipment_type->equipment_name;
             $this->description = $equipment_type->description;
+            $this->status = $equipment_type->status;
             $this->equipment_type_id = $equipment_type_id;
             $this->isOpen = true;
         }

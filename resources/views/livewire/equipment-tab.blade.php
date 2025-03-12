@@ -15,7 +15,8 @@
                 <x-bladewind::icon name="adjustments-horizontal" class="!stroke-blue-600" />
             </button>
 
-            <div x-show="isFilterOpen" class="absolute z-10 mt-2 border-2 border-blue-500 rounded-md bg-zinc-50">
+            <div x-show="isFilterOpen" class="absolute z-10 mt-2 border-2 border-blue-500 rounded-md bg-zinc-50"
+                x-cloak>
                 <form wire:submit.prevent="filterTable" class="flex flex-col p-4 min-w-80">
                     <div class="flex flex-col">
                         <label for="employee_id" class="text-sm">Person Accountable</label>
@@ -49,7 +50,8 @@
                             id="acquired_date" />
                     </div>
 
-                    <x-bladewind::button size="small" can_submit="true" class="w-full mt-2">Filter</x-bladewind::button>
+                    <x-bladewind::button size="small" can_submit="true" class="w-full mt-2"
+                        x-on:click="isFilterOpen = false">Filter</x-bladewind::button>
                 </form>
             </div>
         </div>

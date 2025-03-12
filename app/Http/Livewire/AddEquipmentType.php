@@ -7,7 +7,7 @@ use App\Models\EquipmentType;
 
 class AddEquipmentType extends Component
 {
-    public $equipment_name, $description;
+    public $equipment_name, $description, $status = 1;
     public $isOpen = false; // Track modal state
 
     protected $listeners = ['openAddEquipmentType']; // Listen for events from the table component
@@ -33,7 +33,8 @@ class AddEquipmentType extends Component
         $equipment_type = EquipmentType::create(
             [
                 'equipment_name' => $this->equipment_name,
-                'description' => $this->description
+                'description' => $this->description,
+                'status' => $this->status,
             ]
         );
 

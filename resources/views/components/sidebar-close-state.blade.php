@@ -11,6 +11,12 @@
             @click="activeTab = 'equipment'">
             <x-bladewind::icon name="archive-box" />
         </button>
+        <!-- Locations -->
+        <button :class="activeTab == 'location' && 'active-tab'"
+            class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
+            @click="activeTab = 'location'">
+            <x-bladewind::icon name="map-pin" />
+        </button>
         <!-- Equipment Type -->
         <button :class="activeTab == 'equipment_types' && 'active-tab'"
             class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
