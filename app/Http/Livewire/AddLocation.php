@@ -8,7 +8,7 @@ use App\Models\Location;
 class AddLocation extends Component
 {
     public $description, $status = 1;
-    public $isOpen = false; // Track modal state
+
     protected $listeners = ['openAddLocation'];
 
     protected $rules = [
@@ -48,16 +48,11 @@ class AddLocation extends Component
         ]);
     }
 
-    public function openAddLocation()
-    {
-        $this->isOpen = true;
-    }
-
     public function closeModal()
     {
-        $this->isOpen = false;
         $this->resetErrorBag();
         $this->reset(); // Reset fields
+        $this->emit("closeAddLocation");
     }
 
     public function render()

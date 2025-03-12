@@ -1,4 +1,6 @@
-<div class="flex flex-col h-full gap-4 p-8">
+<div class="flex flex-col h-full gap-4 p-8"
+    x-data="{add_equipment_type_open: @entangle('add_equipment_type_open').defer}">
+    <livewire:add-equipment-type />
     <!-- loading element -->
     <div wire:loading class="absolute top-0 left-0 z-50 bg-zinc-900/30 size-full">
         <div class="flex items-center justify-center h-full">
@@ -21,7 +23,7 @@
             wire:click="clearSearchString()">Refresh</x-bladewind::button>
         @if (Auth::user()->role == 1)
             <x-bladewind::button button_text_css="font-bold flex items-center gap-2" size="small"
-                wire:click="openAddEquipmentType()">
+                x-on:click="add_equipment_type_open = true">
                 <x-bladewind::icon name="plus" type="solid" class="!w-4 !h-4" />
                 Add New Type</x-bladewind::button>
         @endif

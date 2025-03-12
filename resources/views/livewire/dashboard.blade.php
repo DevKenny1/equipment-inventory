@@ -36,12 +36,9 @@
         </div>
     </main>
     <livewire:modify-user />
-    <livewire:add-equipment-type />
     <livewire:edit-equipment-type />
-    <livewire:add-equipment />
     <livewire:edit-equipment />
     <livewire:transfer-equipment />
     <livewire:equipment-history />
-    <livewire:add-location />
     <livewire:edit-location />
 </x-app-layout>

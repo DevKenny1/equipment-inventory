@@ -17,7 +17,14 @@ class LocationTab extends Component
     public $orderByString = 'description';
     public $orderBySort = 'desc';
 
-    protected $listeners = ['refreshLocations' => 'refreshTable', "closeExperiment"];
+    public $add_location_open = false;
+
+    protected $listeners = ['refreshLocations' => 'refreshTable', "closeAddLocation"];
+
+    public function closeAddLocation()
+    {
+        $this->add_location_open = false;
+    }
 
     public function refreshTable()
     {
@@ -35,17 +42,12 @@ class LocationTab extends Component
         $this->refreshTable();
     }
 
-    public function openAddLocation()
-    {
-        $this->emit('openAddLocation');
-    }
     public function openEditLocation($location_id)
     {
         $this->emit('openEditLocation', $location_id);
     }
 
     // setters
-
     public function setOrderBy($field)
     {
         $this->orderByString = $field;

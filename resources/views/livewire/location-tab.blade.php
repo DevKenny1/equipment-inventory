@@ -1,4 +1,5 @@
-<div class="flex flex-col h-full gap-4 p-8" x-data="{example_open: false}">
+<div class="flex flex-col h-full gap-4 p-8" x-data="{add_location_open: @entangle('add_location_open').defer }">
+    <livewire:add-location />
     <!-- loading element -->
     <div wire:loading class="absolute top-0 left-0 z-50 bg-zinc-900/30 size-full">
         <div class="flex items-center justify-center h-full">
@@ -20,11 +21,10 @@
             wire:click="clearSearchString()">Refresh</x-bladewind::button>
         @if (Auth::user()->role == 1)
             <x-bladewind::button button_text_css="font-bold flex items-center gap-2" size="small"
-                wire:click="openAddLocation()">
+                x-on:click="add_location_open = true">
                 <x-bladewind::icon name="plus" type="solid" class="!w-4 !h-4" />
                 Add New Location</x-bladewind::button>
         @endif
-        
     </div>
     <!-- Search -->
 

@@ -25,6 +25,8 @@ class EquipmentTab extends Component
 
     public $personFilter, $locationFilter, $dateFilter;
 
+    public $add_equipment_open = false;
+
     public function refreshTable(): void
     {
         $this->personFilter = '';
@@ -139,11 +141,6 @@ class EquipmentTab extends Component
             ->orderBy($this->orderByString, $this->orderBySort)
             ->paginate($this->itemPerPage);
 
-    }
-
-    public function addItem()
-    {
-        $this->emit('openAddEquipment');
     }
 
     public function editItem($equipment_id)

@@ -1,4 +1,6 @@
-<div class="flex flex-col h-full gap-4 p-8" x-data="{isFilterOpen: false}">
+<div class="flex flex-col h-full gap-4 p-8"
+    x-data="{isFilterOpen: false, add_equipment_open: @entangle('add_equipment_open').defer}">
+    <livewire:add-equipment />
     <!-- loading element -->
     <div wire:loading class="absolute top-0 left-0 z-50 bg-zinc-900/30 size-full">
         <div class="flex items-center justify-center h-full">
@@ -77,7 +79,8 @@
         <x-bladewind::button button_text_css="font-bold" size="small"
             wire:click="clearSearchString()">Refresh</x-bladewind::button>
         @if (Auth::user()->role == 1)
-            <x-bladewind::button button_text_css="font-bold flex items-center gap-2" size="small" wire:click="addItem()">
+            <x-bladewind::button button_text_css="font-bold flex items-center gap-2" size="small"
+                x-on:click="add_equipment_open = true">
                 <x-bladewind::icon name="plus" type="solid" class="!w-4 !h-4" />
                 Add New Item</x-bladewind::button>
         @endif

@@ -8,7 +8,6 @@ use App\Models\EquipmentType;
 class AddEquipmentType extends Component
 {
     public $equipment_name, $description, $status = 1;
-    public $isOpen = false; // Track modal state
 
     protected $listeners = ['openAddEquipmentType']; // Listen for events from the table component
 
@@ -47,25 +46,17 @@ class AddEquipmentType extends Component
             ]);
 
             $this->closeModal();
-
             // Emit event to table component to refresh data
             $this->emit('refreshEquipmentTypes');
-
             return;
         }
     }
 
-    public function openAddEquipmentType()
-    {
-        $this->isOpen = true;
-
-    }
-
     public function closeModal()
     {
-        $this->isOpen = false;
         $this->resetErrorBag();
         $this->reset(); // Reset fields
+        $this->emit("closeAddEquipmentType");
     }
 
     public function render()

@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\DB;
 class AddEquipment extends Component
 {
     public $equipment_type_id, $brand, $model, $serial_number, $mr_no, $employee_id, $acquired_date, $unit_id, $remarks;
-    public $isOpen = false; // Track modal state
-
-    protected $listeners = ['openAddEquipment']; // Listen for events from the table component
 
     public $equipment_types = [];
     public $employees = [];
@@ -88,20 +85,12 @@ class AddEquipment extends Component
         }
     }
 
-    public function openAddEquipment()
-    {
-        $this->populateEmployees();
-        $this->populateUnits();
-        $this->populateEquipmentTypes();
-        $this->isOpen = true;
-
-    }
 
     public function closeModal()
     {
-        $this->isOpen = false;
         $this->resetErrorBag();
         $this->reset(); // Reset fields
+        $this->isOpen = false;
     }
 
     public function populateEmployees()
@@ -129,6 +118,13 @@ class AddEquipment extends Component
             ->get()
             ->map(fn($item) => (array) $item) // Convert to array
             ->toArray();
+    }
+
+    public function mount()
+    {
+        $this->populateEmployees();
+        $this->populateUnits();
+        $this->populateEquipmentTypes();
     }
 
     public function render()
