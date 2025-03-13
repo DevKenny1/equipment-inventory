@@ -33,8 +33,9 @@ class EquipmentExport implements FromQuery, WithHeadings
             ->table('equipment')
             ->join('equipment_type', 'equipment.equipment_type_id', '=', 'equipment_type.equipment_type_id')
             ->join('infosys.employee', 'equipment.person_accountable_id', '=', 'infosys.employee.employee_id')
-            ->join('infosys.unit', 'equipment.current_location_id', '=', 'infosys.unit.unit_id')
-            ->join('infosys.division', 'infosys.division.division_id', '=', 'infosys.unit.unit_div')
+            ->leftJoin('infosys.unit', 'equipment.person_accountable_unit_id', '=', 'infosys.unit.unit_id')
+            ->leftJoin('infosys.division', 'infosys.division.division_id', '=', 'infosys.unit.unit_div')
+            ->leftJoin('location', 'equipment.location_id', '=', 'location.location_id')
             ->select(
                 'equipment_type.equipment_name',
                 'equipment.brand',
@@ -42,7 +43,8 @@ class EquipmentExport implements FromQuery, WithHeadings
                 'equipment.serial_number',
                 'equipment.mr_no',
                 DB::raw("CONCAT(infosys.employee.lastname, ', ', infosys.employee.firstname) as name"),
-                DB::raw("CONCAT(infosys.unit.unit_desc,'(',infosys.unit.unit_code,')','[',infosys.division.division_code,']') as current_location"),
+                DB::raw("location.description as location_description"),
+                DB::raw("CONCAT(infosys.unit.unit_code,'/',infosys.division.division_code) as section_division"),
                 'equipment.acquired_date',
                 'equipment.remarks'
             )
@@ -54,8 +56,11 @@ class EquipmentExport implements FromQuery, WithHeadings
             })
             ->when($this->dateFilter, function ($query) {
                 return $query->whereDate('equipment.acquired_date', $this->dateFilter);
+            })->when($this->searchBy === 'section_division' || $this->searchBy === 'location_description', function ($query) {
+                return $query->having($this->searchBy, 'like', "$this->searchString%");
+            }, function ($query) {
+                return $query->where($this->searchBy, 'like', "$this->searchString%");
             })
-            ->where($this->searchBy, 'like', "$this->searchString%")
             ->orderBy($this->orderByString, $this->orderBySort);
     }
 
@@ -68,7 +73,8 @@ class EquipmentExport implements FromQuery, WithHeadings
             'Serial number',
             'MR NO',
             'Person accountable',
-            'Current location',
+            'Section/Division',
+            'Location',
             'Acquired date',
             'Remarks'
         ];

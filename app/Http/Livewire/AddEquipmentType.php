@@ -47,6 +47,8 @@ class AddEquipmentType extends Component
 
             $this->closeModal();
             // Emit event to table component to refresh data
+            $this->equipment_name = '';
+            $this->description = '';
             $this->emit('refreshEquipmentTypes');
             return;
         }

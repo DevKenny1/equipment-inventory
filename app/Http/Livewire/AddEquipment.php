@@ -6,11 +6,13 @@ use Livewire\Component;
 use App\Models\Equipment;
 use App\Models\TransferHistory;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 class AddEquipment extends Component
 {
-    public $equipment_type_id, $brand, $model, $acquired_date, $location_id, $serial_number, $mr_no, $person_accountable_id, $remarks;
-
+    public $equipment_type_id, $brand, $model, $location_id, $serial_number, $mr_no, $person_accountable_id, $remarks;
+    public $acquired_date;
     public $equipment_types = [];
     public $employees = [];
     public $units = [];
@@ -103,6 +105,7 @@ class AddEquipment extends Component
         $this->dispatchBrowserEvent('clear-employee');
         $this->dispatchBrowserEvent('clear-location');
         $this->dispatchBrowserEvent('clear-equipment-type');
+        $this->acquired_date = Carbon::now()->format('Y-m-d');
     }
 
     public function populateEmployees()
@@ -137,6 +140,7 @@ class AddEquipment extends Component
         $this->populateEmployees();
         $this->populateLocation();
         $this->populateEquipmentTypes();
+        $this->acquired_date = Carbon::now()->format('Y-m-d');
     }
 
     public function render()

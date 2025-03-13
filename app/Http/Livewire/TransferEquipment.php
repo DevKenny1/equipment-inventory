@@ -42,30 +42,33 @@ class TransferEquipment extends Component
                     'location_id' => $this->transfer_location,
                 ]);
 
+        if ($equipment) {
+            $transfer_equipment = TransferHistory::create(
+                [
+                    'equipment_id' => $this->equipment_id,
+                    'date_of_transfer' => now()->format('Y-m-d'),
+                    'transfer_person_accountable_id' => $this->transfer_person,
+                    'transfer_person_unit_id' => $person_accountable->unit_unit_id,
+                    'transfer_location_id' => $this->transfer_location,
+                ]
+            );
 
-
-        $transfer_equipment = TransferHistory::create(
-            [
-                'equipment_id' => $this->equipment_id,
-                'date_of_transfer' => now()->format('Y-m-d'),
-                'transfer_person_accountable_id' => $this->transfer_person,
-                'transfer_person_unit_id' => $person_accountable->unit_unit_id,
-                'transfer_location_id' => $this->transfer_location,
-            ]
-        );
-
-        if ($equipment && $transfer_equipment) {
             $this->dispatchBrowserEvent('showNotification', [
                 'title' => 'Transfer Equipment',
                 'message' => 'Equipment is successfully transferred',
                 'type' => 'success'
             ]);
 
+
             // Emit event to table component to refresh data
             $this->emit('refreshEquipment');
-
             $this->closeModal();
+        } else {
+            $this->addError('transfer_person', message: '*The selected fields is the same with the current data.');
+            $this->addError('transfer_location', '*The selected fields is the same with the current data.');
+            return;
         }
+
     }
 
     public function openTransferEquipment($equipment_id)
@@ -88,9 +91,6 @@ class TransferEquipment extends Component
 
         $this->name = $equipment->name;
         $this->location = $equipment->location_description;
-
-        $this->populateEmployees();
-        $this->populateLocation();
         $this->isOpen = true;
     }
 
@@ -116,7 +116,15 @@ class TransferEquipment extends Component
     public function closeModal()
     {
         $this->isOpen = false;
+        $this->dispatchBrowserEvent('clear-transfer-employee');
+        $this->dispatchBrowserEvent('clear-transfer-location');
         $this->resetErrorBag();
+    }
+
+    public function mount()
+    {
+        $this->populateEmployees();
+        $this->populateLocation();
     }
 
     public function render()

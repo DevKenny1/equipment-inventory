@@ -20,30 +20,85 @@
             <div x-show="isFilterOpen" class="absolute z-10 mt-2 border-2 border-blue-500 rounded-md bg-zinc-50"
                 x-cloak>
                 <form wire:submit.prevent="filterTable" class="flex flex-col p-4 min-w-80">
-                    <div class="flex flex-col">
-                        <label for="employee_id" class="text-sm">Person Accountable</label>
-                        <select id="employee_id" wire:model.defer="personFilter"
-                            class="p-2 text-sm border-2 rounded-md border-zinc-200">
-                            <option value="">All</option>
-                            @foreach ($employees as $employee)
-                                <option value="{{ $employee['employee_id'] }}">{{ strtoupper($employee['lastname']) }},
-                                    {{ strtoupper($employee['firstname']) }}
-                                </option>
-                            @endforeach
-                        </select>
+
+                    <!-- employee -->
+                    <div x-data="{ searchEmployee: '', selectedEmployee: '', personFilter: '', showDropdown: false }"
+                        @clear-employee.window="selectedEmployee = ''; personFilter = ''; $wire.set('personFilter', '');">
+                        <label for="personFilter" class="text-sm">Person Accountable</label>
+
+                        <!-- Custom Select -->
+                        <div class="relative">
+                            <div @click="showDropdown = !showDropdown"
+                                class="w-full p-2 text-sm bg-white border-2 rounded-md cursor-pointer border-zinc-200">
+                                <span x-text="selectedEmployee ? selectedEmployee : 'Select Employee'"></span>
+                            </div>
+
+                            <!-- Dropdown -->
+                            <div x-show="showDropdown" @click.away="showDropdown = false"
+                                class="absolute z-10 w-full mt-1 overflow-auto bg-white border border-gray-200 rounded-md shadow-md max-h-40">
+
+                                <!--  ADDED: Search Input -->
+                                <input type="text" x-model="searchEmployee" placeholder="Search Employee..."
+                                    class="w-full p-2 text-sm border-b border-gray-200">
+
+                                <!--  ADDED: Filtered Options -->
+                                <template
+                                    x-for="employee in {{ json_encode($employees) }}.filter(e => e.lastname.toLowerCase().includes(searchEmployee.toLowerCase()) || e.firstname.toLowerCase().includes(searchEmployee.toLowerCase()))"
+                                    :key="employee . employee_id">
+                                    <div @click="
+                                    selectedEmployee = `${employee.lastname.toUpperCase()}, ${employee.firstname.toUpperCase()}`;
+                                    personFilter = employee.employee_id;
+                                    showDropdown = false;
+                                    $wire.set('personFilter', employee.employee_id);
+                                " class="p-2 text-sm cursor-pointer hover:bg-gray-100">
+                                        <span
+                                            x-text="`${employee.lastname.toUpperCase()}, ${employee.firstname.toUpperCase()}`"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <!--  ADDED: Hidden Input to Sync Livewire -->
+                        <input type="hidden" x-model.defer="personFilter" wire:model.defer="personFilter">
+
                     </div>
 
-                    <div class="flex flex-col">
-                        <label for="unit_id" class="text-sm">Current Location</label>
-                        <select id="unit_id" wire:model.defer="locationFilter"
-                            class="p-2 text-sm border-2 rounded-md border-zinc-200">
-                            <option value="">All</option>
-                            @foreach ($units as $unit)
-                                <option value="{{ $unit['unit_id'] }}">
-                                    {{ $unit['unit_desc'] }}({{ $unit['unit_code'] }})[{{ $unit['division_code'] }}]
-                                </option>
-                            @endforeach
-                        </select>
+                    <!-- location -->
+                    <div x-data="{ searchLocation: '', selectedLocation: '', locationFilter: '', showDropdown: false }"
+                        @clear-location.window="selectedLocation = ''; locationFilter = ''; $wire.set('locationFilter', '');">
+                        <label for="locationFilter" class="text-sm">Location</label>
+
+                        <!-- Custom Select -->
+                        <div class="relative">
+                            <div @click="showDropdown = !showDropdown"
+                                class="w-full p-2 text-sm bg-white border-2 rounded-md cursor-pointer border-zinc-200">
+                                <span x-text="selectedLocation ? selectedLocation : 'Select Location'"></span>
+                            </div>
+
+                            <!-- Dropdown -->
+                            <div x-show="showDropdown" @click.away="showDropdown = false"
+                                class="absolute z-10 w-full mt-1 overflow-auto bg-white border border-gray-200 rounded-md shadow-md max-h-40">
+
+                                <!--  ADDED: Search Input -->
+                                <input type="text" x-model="searchLocation" placeholder="Search Location..."
+                                    class="w-full p-2 text-sm border-b border-gray-200">
+
+                                <!--  ADDED: Filtered Options -->
+                                <template
+                                    x-for="location in {{ json_encode($locations) }}.filter(e => e.description.toLowerCase().includes(searchLocation.toLowerCase()))"
+                                    :key="location . location_id">
+                                    <div @click="
+                                                selectedLocation = `${location.description}`;
+                                                locationFilter = location.location_id;
+                                                showDropdown = false;
+                                                $wire.set('locationFilter', location.location_id);
+                                            " class="p-2 text-sm cursor-pointer hover:bg-gray-100">
+                                        <span x-text="`${location.description}`"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <!--  ADDED: Hidden Input to Sync Livewire -->
+                        <input type="hidden" x-model.defer="locationFilter" wire:model.defer="locationFilter">
                     </div>
 
                     <div>
@@ -135,7 +190,7 @@
 
                 <th>
                     <div @class([
-                        'text-blue-500 font-bold' => $orderByString == 'location'
+                        'text-blue-500 font-bold' => $orderByString == 'location_description'
                     ])>LOCATION
                     </div>
                 </th>

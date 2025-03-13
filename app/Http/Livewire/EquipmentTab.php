@@ -88,6 +88,16 @@ class EquipmentTab extends Component
         ), 'equipment.xlsx');
     }
 
+
+    public function populateLocation()
+    {
+        $this->locations = DB::table('location')
+            ->where("status", 1)
+            ->get()
+            ->map(fn($item) => (array) $item) // Convert to array
+            ->toArray();
+    }
+
     // setters
 
     public function setOrderBy($field)
@@ -180,6 +190,7 @@ class EquipmentTab extends Component
     {
         $this->populateEmployees();
         $this->populateUnits();
+        $this->populateLocation();
         $this->totalEquipments = Equipment::count();
     }
 

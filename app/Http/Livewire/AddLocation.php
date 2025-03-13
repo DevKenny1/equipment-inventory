@@ -39,6 +39,7 @@ class AddLocation extends Component
             ]);
             $this->closeModal();
             $this->emit('refreshLocations');
+            $this->description = '';
             return;
         }
         $this->dispatchBrowserEvent('showNotification', [

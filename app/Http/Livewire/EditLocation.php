@@ -53,12 +53,8 @@ class EditLocation extends Component
             $this->emit('refreshLocations');
             return;
         }
-        $this->dispatchBrowserEvent('showNotification', [
-            'title' => 'New Location',
-            'message' => 'Created location failed.',
-            'type' => 'error'
-        ]);
-
+        $this->closeModal();
+        return;
     }
 
     public function closeModal()

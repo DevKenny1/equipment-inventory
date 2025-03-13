@@ -21,7 +21,8 @@
                 <div class="h-1 my-4 bg-gray-300"></div>
 
                 <!-- employee -->
-                <div x-data="{ searchEmployee: '', selectedEmployee: '', transfer_person: '', showDropdown: false }">
+                <div x-data="{ searchEmployee: '', selectedEmployee: '', transfer_person: '', showDropdown: false }"
+                    @clear-transfer-employee.window="selectedEmployee = ''; transfer_person = ''; $wire.set('transfer_person', '');">
                     <label for="transfer_person" class="text-sm">Person Accountable</label>
 
                     <!-- Custom Select -->
@@ -64,7 +65,8 @@
                 </div>
 
                 <!-- location -->
-                <div x-data="{ searchLocation: '', selectedLocation: '', transfer_location: '', showDropdown: false }">
+                <div x-data="{ searchLocation: '', selectedLocation: '', transfer_location: '', showDropdown: false }"
+                    @clear-transfer-employee.window="selectedLocation = ''; transfer_location = ''; $wire.set('transfer_location', '');">
                     <label for="transfer_location" class="text-sm">Location</label>
 
                     <!-- Custom Select -->
