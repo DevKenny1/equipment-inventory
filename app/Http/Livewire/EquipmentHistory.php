@@ -34,9 +34,17 @@ class EquipmentHistory extends Component
     {
         return DB::connection('mysql')
             ->table('equipment_transfer_history')
-            ->join('infosys.employee', 'equipment_transfer_history.transfer_person_accountable_id', '=', 'infosys.employee.employee_id')
-            ->join('infosys.unit', 'equipment_transfer_history.transfer_location_id', '=', 'infosys.unit.unit_id')
-            ->select('equipment_transfer_history.*', DB::raw("CONCAT(infosys.employee.lastname,', ', infosys.employee.firstname) as name"), 'infosys.unit.unit_desc', 'infosys.unit.unit_code')->where('equipment_id', 'like', $this->equipment_id)
+            ->leftJoin('infosys.employee', 'equipment_transfer_history.transfer_person_accountable_id', '=', 'infosys.employee.employee_id')
+            ->leftJoin('infosys.unit', 'equipment_transfer_history.transfer_person_unit_id', '=', 'infosys.unit.unit_id')
+            ->leftJoin('infosys.division', 'infosys.division.division_id', '=', 'infosys.unit.unit_div')
+            ->leftJoin('location', 'equipment_transfer_history.transfer_location_id', '=', 'location.location_id')
+            ->select(
+                'equipment_transfer_history.*',
+                DB::raw("CONCAT(infosys.employee.lastname,', ', infosys.employee.firstname) as name"),
+                DB::raw("location.description as location_description"),
+                DB::raw("CONCAT(infosys.unit.unit_code,'/',infosys.division.division_code) as section_division"),
+            )
+            ->where('equipment_id', 'like', $this->equipment_id)
             ->orderBy('equipment_transfer_history_id', $this->orderBySort)
             ->paginate($this->itemPerPage);
     }

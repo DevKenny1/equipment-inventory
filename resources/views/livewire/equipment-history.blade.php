@@ -21,6 +21,9 @@
                             <div>PERSON ACCOUNTABLE</div>
                         </th>
                         <th>
+                            <div>SECTION/DIVISION</div>
+                        </th>
+                        <th>
                             <div>LOCATION</div>
                         </th>
                         <th>
@@ -37,7 +40,11 @@
                             </td>
 
                             <td>
-                                {{ $equipmentHistory->unit_desc }}
+                                {{ $equipmentHistory->section_division }}
+                            </td>
+
+                            <td>
+                                {{ $equipmentHistory->location_description }}
                             </td>
 
                             <td>

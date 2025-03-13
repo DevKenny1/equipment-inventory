@@ -31,8 +31,10 @@
                             wire:model.defer="username" id="username" size="small" />
                         @error('username') <small class="text-red-500">{{ $message }}</small> @enderror
                     </div>
+
                     <!-- employee -->
-                    <div x-data="{ search: '', selectedEmployee: '', employeeId: '', showDropdown: false }">
+                    <div x-data="{ search: '', selectedEmployee: '', employeeId: '', showDropdown: false }"
+                        @clear-employee.window="selectedEmployee = ''; employeeId = ''; $wire.set('employee_id', '');">
                         <label for="employee" class="font-bold text-zinc-500">Employee</label>
 
                         <!-- Custom Select -->
@@ -44,7 +46,7 @@
 
                             <!-- Dropdown -->
                             <div x-show="showDropdown" @click.away="showDropdown = false"
-                                class="absolute z-10 w-full h-40 mt-1 overflow-auto bg-white border border-gray-200 rounded-md shadow-md">
+                                class="absolute z-10 w-full mt-1 overflow-auto bg-white border border-gray-200 rounded-md shadow-md max-h-40">
 
                                 <!--  ADDED: Search Input -->
                                 <input type="text" x-model="search" placeholder="Search Employee..."
@@ -70,7 +72,7 @@
                         <!--  ADDED: Hidden Input to Sync Livewire -->
                         <input type="hidden" x-model.defer="employeeId" wire:model.defer="employee_id">
 
-                        @error('employee_id') 
+                        @error('employee_id')
                             <small class="text-red-500">{{ $message }}</small>
                         @enderror
                     </div>

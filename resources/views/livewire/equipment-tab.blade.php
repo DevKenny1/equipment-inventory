@@ -72,7 +72,8 @@
             <option value="lastname">Person accountable
             </option>
             <option value="acquired_date">Acquired Date</option>
-            <option value="unit_desc">Current location</option>
+            <option value="section_division">Section/Division</option>
+            <option value="location_description">Location</option>
             <option value="remarks">Remarks</option>
         </select>
 
@@ -124,17 +125,27 @@
                     ])>PERSON ACCOUNTABLE
                     </div>
                 </th>
+
+                <th>
+                    <div @class([
+                        'text-blue-500 font-bold' => $orderByString == 'section_division'
+                    ])>SECTION/DIVISION
+                    </div>
+                </th>
+
+                <th>
+                    <div @class([
+                        'text-blue-500 font-bold' => $orderByString == 'location'
+                    ])>LOCATION
+                    </div>
+                </th>
+
                 <th>
                     <div @class([
                         'text-blue-500 font-bold' => $orderByString == 'equipment_id'
                     ])>ACQUIRED DATE</div>
                 </th>
-                <th>
-                    <div @class([
-                        'text-blue-500 font-bold' => $orderByString == 'unit_desc'
-                    ])>CURRENT LOCATION
-                    </div>
-                </th>
+
                 <th>
                     <div @class([
                         'text-blue-500 font-bold' => $orderByString == 'remarks'
@@ -175,11 +186,16 @@
                     </td>
 
                     <td>
-                        {{ $equipment->acquired_date }}
+                        {{ $equipment->section_division }}
+
                     </td>
 
                     <td>
-                        {{ $equipment->unit_desc }}({{ $equipment->unit_code }})[{{ $equipment->division_code }}]
+                        {{ $equipment->location_description }}
+                    </td>
+
+                    <td>
+                        {{ $equipment->acquired_date }}
                     </td>
 
                     <td>
@@ -255,7 +271,8 @@
                     <option value="mr_no">MR NO</option>
                     <option value="name">Person accountable</option>
                     <option value="acquired_date">Acquired Date</option>
-                    <option value="unit_desc">Current location</option>
+                    <option value="section_division">Section/Division</option>
+                    <option value="location_description">Location</option>
                     <option value="remarks">Remarks</option>
                 </select>
             </div>

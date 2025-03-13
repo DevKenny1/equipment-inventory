@@ -4,18 +4,49 @@
         <h2 class="mb-4 text-xl font-bold text-center">Add Equipment</h2>
         <form wire:submit.prevent="createEquipment" class="flex flex-col gap-2">
 
-            <div class="flex flex-col">
+            <!-- Equipment Type -->
+            <div x-data="{ searchEquipmentType: '', selectedEquipmentType: '', equipment_type_id: '', showDropdown: false }"
+                @clear-equipment-type.window="selectedEquipmentType = ''; equipment_type_id = ''; $wire.set('equipment_type_id', '');">
+
                 <label for="equipment_type" class="text-sm">Equipment Type</label>
-                <select id="equipment_type" wire:model.defer="equipment_type_id"
-                    class="p-2 text-sm border-2 rounded-md border-zinc-200">
-                    <option value="">Select equipment type</option>
-                    @foreach ($equipment_types as $equipment_type)
-                        <option value="{{ $equipment_type['equipment_type_id'] }}">
-                            {{ $equipment_type['equipment_name'] }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('equipment_type_id') <small class="text-red-500">{{ $message }}</small> @enderror
+
+                <!-- Custom Select -->
+                <div class="relative">
+                    <div @click="showDropdown = !showDropdown"
+                        class="w-full p-2 text-sm bg-white border-2 rounded-md cursor-pointer border-zinc-200">
+                        <span x-text="selectedEquipmentType ? selectedEquipmentType : 'Select Equipment Type'"></span>
+                    </div>
+
+                    <!-- Dropdown -->
+                    <div x-show="showDropdown" @click.away="showDropdown = false"
+                        class="absolute z-10 w-full mt-1 overflow-auto bg-white border border-gray-200 rounded-md shadow-md max-h-40">
+
+                        <!-- Search Input -->
+                        <input type="text" x-model="searchEquipmentType" placeholder="Search Equipment Type..."
+                            class="w-full p-2 text-sm border-b border-gray-200">
+
+                        <!-- Filtered Options -->
+                        <template
+                            x-for="equipment_type in {{ json_encode($equipment_types) }}.filter(e => e.equipment_name.toLowerCase().includes(searchEquipmentType.toLowerCase()))"
+                            :key="equipment_type . equipment_type_id">
+                            <div @click="
+                        selectedEquipmentType = equipment_type.equipment_name;
+                        equipment_type_id = equipment_type.equipment_type_id;
+                        showDropdown = false;
+                        $wire.set('equipment_type_id', equipment_type.equipment_type_id);
+                    " class="p-2 text-sm cursor-pointer hover:bg-gray-100">
+                                <span x-text="equipment_type.equipment_name"></span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Hidden Input to Sync Livewire -->
+                <input type="hidden" x-model.defer="equipment_type_id" wire:model.defer="equipment_type_id">
+
+                @error('equipment_type_id')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
             </div>
 
             <div>
@@ -46,34 +77,96 @@
                 @error('mr_no') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
             </div>
 
-            <div class="flex flex-col">
-                <label for="employee_id" class="text-sm">Person Accountable</label>
-                <select id="employee_id" wire:model.defer="employee_id"
-                    class="p-2 text-sm border-2 rounded-md border-zinc-200">
-                    <option value="">Select person accountable</option>
-                    @foreach ($employees as $employee)
-                        <option value="{{ $employee['employee_id'] }}">{{ strtoupper($employee['lastname']) }},
-                            {{ strtoupper($employee['firstname']) }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('employee_id') <small class="text-red-500">{{ $message }}</small> @enderror
+            <!-- employee -->
+            <div x-data="{ searchEmployee: '', selectedEmployee: '', person_accountable_id: '', showDropdown: false }"
+                @clear-employee.window="selectedEmployee = ''; person_accountable_id = ''; $wire.set('person_accountable_id', '');">
+                <label for="person_accountable_id" class="text-sm">Person Accountable</label>
+
+                <!-- Custom Select -->
+                <div class="relative">
+                    <div @click="showDropdown = !showDropdown"
+                        class="w-full p-2 text-sm bg-white border-2 rounded-md cursor-pointer border-zinc-200">
+                        <span x-text="selectedEmployee ? selectedEmployee : 'Select Employee'"></span>
+                    </div>
+
+                    <!-- Dropdown -->
+                    <div x-show="showDropdown" @click.away="showDropdown = false"
+                        class="absolute z-10 w-full mt-1 overflow-auto bg-white border border-gray-200 rounded-md shadow-md max-h-40">
+
+                        <!--  ADDED: Search Input -->
+                        <input type="text" x-model="searchEmployee" placeholder="Search Employee..."
+                            class="w-full p-2 text-sm border-b border-gray-200">
+
+                        <!--  ADDED: Filtered Options -->
+                        <template
+                            x-for="employee in {{ json_encode($employees) }}.filter(e => e.lastname.toLowerCase().includes(searchEmployee.toLowerCase()) || e.firstname.toLowerCase().includes(searchEmployee.toLowerCase()))"
+                            :key="employee . employee_id">
+                            <div @click="
+                                    selectedEmployee = `${employee.lastname.toUpperCase()}, ${employee.firstname.toUpperCase()}`;
+                                    person_accountable_id = employee.employee_id;
+                                    showDropdown = false;
+                                    $wire.set('person_accountable_id', employee.employee_id);
+                                " class="p-2 text-sm cursor-pointer hover:bg-gray-100">
+                                <span
+                                    x-text="`${employee.lastname.toUpperCase()}, ${employee.firstname.toUpperCase()}`"></span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <!--  ADDED: Hidden Input to Sync Livewire -->
+                <input type="hidden" x-model.defer="person_accountable_id" wire:model.defer="person_accountable_id">
+
+                @error('person_accountable_id')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
             </div>
 
-            <div class="flex flex-col">
-                <label for="unit_id" class="text-sm">Current Location</label>
-                <select id="unit_id" wire:model.defer="unit_id" class="p-2 text-sm border-2 rounded-md border-zinc-200">
-                    <option value="">Select current location</option>
-                    @foreach ($units as $unit)
-                        <option value="{{ $unit['unit_id'] }}">
-                            {{ $unit['unit_desc'] }}({{ $unit['unit_code'] }})[{{ $unit['division_code'] }}]
-                        </option>
-                    @endforeach
-                </select>
-                @error('unit_id') <small class="text-red-500">{{ $message }}</small> @enderror
+            <!-- location -->
+            <div x-data="{ searchLocation: '', selectedLocation: '', location_id: '', showDropdown: false }"
+                @clear-location.window="selectedLocation = ''; location_id = ''; $wire.set('location_id', '');">
+                <label for="location_id" class="text-sm">Location</label>
+
+                <!-- Custom Select -->
+                <div class="relative">
+                    <div @click="showDropdown = !showDropdown"
+                        class="w-full p-2 text-sm bg-white border-2 rounded-md cursor-pointer border-zinc-200">
+                        <span x-text="selectedLocation ? selectedLocation : 'Select Location'"></span>
+                    </div>
+
+                    <!-- Dropdown -->
+                    <div x-show="showDropdown" @click.away="showDropdown = false"
+                        class="absolute z-10 w-full mt-1 overflow-auto bg-white border border-gray-200 rounded-md shadow-md max-h-40">
+
+                        <!--  ADDED: Search Input -->
+                        <input type="text" x-model="searchLocation" placeholder="Search Location..."
+                            class="w-full p-2 text-sm border-b border-gray-200">
+
+                        <!--  ADDED: Filtered Options -->
+                        <template
+                            x-for="location in {{ json_encode($locations) }}.filter(e => e.description.toLowerCase().includes(searchLocation.toLowerCase()))"
+                            :key="location . location_id">
+                            <div @click="
+                                                selectedLocation = `${location.description}`;
+                                                location_id = location.location_id;
+                                                showDropdown = false;
+                                                $wire.set('location_id', location.location_id);
+                                            " class="p-2 text-sm cursor-pointer hover:bg-gray-100">
+                                <span x-text="`${location.description}`"></span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <!--  ADDED: Hidden Input to Sync Livewire -->
+                <input type="hidden" x-model.defer="location_id" wire:model.defer="location_id">
+
+                @error('location_id')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
             </div>
 
+            <!-- acquired date -->
             <div>
+
                 <label for="acquired_date" class="text-sm">Acquired Date</label>
                 <x-bladewind::input type="date" size="small" add_clearing="false" wire:model.defer="acquired_date"
                     id="acquired_date" />
@@ -97,5 +190,5 @@
                 </x-bladewind::button>
             </div>
         </form>
-    </div>s
+    </div>
 </div>

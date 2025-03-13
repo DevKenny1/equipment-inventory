@@ -118,7 +118,6 @@ class EditEquipment extends Component
     {
         $this->isOpen = false;
         $this->resetErrorBag();
-        $this->reset(); // Reset fields
     }
 
     public function populateEquipmentTypes()

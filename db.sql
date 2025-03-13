@@ -36,7 +36,7 @@ CREATE TABLE equipment(
     serial_number VARCHAR(50),
     mr_no VARCHAR(50),
     person_accountable_id int(11) NOT NULL,
-    person_accountalbe_location int(11) NOT NULL,
+    person_accountable_unit_id int(11) NOT NULL,
     remarks text
 );
 

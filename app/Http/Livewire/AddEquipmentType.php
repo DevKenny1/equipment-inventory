@@ -55,7 +55,6 @@ class AddEquipmentType extends Component
     public function closeModal()
     {
         $this->resetErrorBag();
-        $this->reset(); // Reset fields
         $this->emit("closeAddEquipmentType");
     }
 

@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class AddEquipment extends Component
 {
-    public $equipment_type_id, $brand, $model, $serial_number, $mr_no, $employee_id, $acquired_date, $unit_id, $remarks;
+    public $equipment_type_id, $brand, $model, $acquired_date, $location_id, $serial_number, $mr_no, $person_accountable_id, $remarks;
 
     public $equipment_types = [];
     public $employees = [];
     public $units = [];
+
+    public $locations = [];
 
     protected $rules = [
         'equipment_type_id' => 'required',
@@ -21,15 +23,15 @@ class AddEquipment extends Component
         'model' => 'max:50',
         'serial_number' => 'max:50',
         'acquired_date' => 'required',
-        'unit_id' => 'required',
-        'employee_id' => 'required',
+        'location_id' => 'required',
+        'person_accountable_id' => 'required',
     ];
 
     protected $messages = [
         "equipment_type_id.required" => "*Select equipment type",
         "acquired_date.required" => "*Select acquired date",
-        "unit_id.required" => "*Select current location",
-        "employee_id.required" => "*Select person accountable",
+        "location_id.required" => "*Select location",
+        "person_accountable_id.required" => "*Select person accountable",
         "brand.max" => "*Brand too long",
         "model.max" => "*Model too long",
         "serial_number.max" => "*Serial number too long",
@@ -45,16 +47,20 @@ class AddEquipment extends Component
 
         $this->validate();
 
+        // fetch person accountable details
+        $person_accountable = DB::table("infosys.employee")->where("employee_id", $this->person_accountable_id)->first();
+
         $equipment = Equipment::create(
             [
                 'equipment_type_id' => $this->equipment_type_id,
                 'brand' => $this->brand,
                 'model' => $this->model,
                 'acquired_date' => $this->acquired_date,
-                'current_location_id' => $this->unit_id,
+                'location_id' => $this->location_id,
                 'serial_number' => $this->serial_number,
                 'mr_no' => $this->mr_no,
-                'person_accountable_id' => $this->employee_id,
+                'person_accountable_id' => $this->person_accountable_id,
+                'person_accountable_unit_id' => $person_accountable->unit_unit_id,
                 'remarks' => $this->remarks,
             ]
         );
@@ -64,7 +70,8 @@ class AddEquipment extends Component
                 'equipment_id' => $equipment->equipment_id,
                 'date_of_transfer' => now()->format('Y-m-d'),
                 'transfer_person_accountable_id' => $equipment->person_accountable_id,
-                'transfer_location_id' => $equipment->current_location_id,
+                'transfer_person_unit_id' => $person_accountable->unit_unit_id,
+                'transfer_location_id' => $equipment->location_id,
             ]
         );
 
@@ -89,8 +96,13 @@ class AddEquipment extends Component
     public function closeModal()
     {
         $this->resetErrorBag();
-        $this->reset(); // Reset fields
-        $this->isOpen = false;
+        $this->equipment_type_id = null;
+        $this->location_id = null;
+        $this->person_accountable_id = null;
+        $this->emit("closeAddEquipment");
+        $this->dispatchBrowserEvent('clear-employee');
+        $this->dispatchBrowserEvent('clear-location');
+        $this->dispatchBrowserEvent('clear-equipment-type');
     }
 
     public function populateEmployees()
@@ -102,11 +114,10 @@ class AddEquipment extends Component
             ->toArray();
     }
 
-    public function populateUnits()
+    public function populateLocation()
     {
-        $this->units = DB::table('infosys.unit')
-            ->leftJoin('infosys.division', 'infosys.division.division_id', '=', 'infosys.unit.unit_div')
-            ->select('infosys.unit.*', 'infosys.division.division_code') // Include necessary columns
+        $this->locations = DB::table('location')
+            ->where("status", 1)
             ->get()
             ->map(fn($item) => (array) $item) // Convert to array
             ->toArray();
@@ -115,6 +126,7 @@ class AddEquipment extends Component
     public function populateEquipmentTypes()
     {
         $this->equipment_types = DB::table('equipment_type')
+            ->where("status", 1)
             ->get()
             ->map(fn($item) => (array) $item) // Convert to array
             ->toArray();
@@ -123,7 +135,7 @@ class AddEquipment extends Component
     public function mount()
     {
         $this->populateEmployees();
-        $this->populateUnits();
+        $this->populateLocation();
         $this->populateEquipmentTypes();
     }
 

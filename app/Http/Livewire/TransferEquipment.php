@@ -14,7 +14,7 @@ class TransferEquipment extends Component
     public $isOpen = false; // Track modal state
 
     public $employees = [];
-    public $units = [];
+    public $locations = [];
 
     protected $listeners = ['openTransferEquipment']; // Listen for events from the table component
 
@@ -32,17 +32,24 @@ class TransferEquipment extends Component
     {
         $this->validate();
 
+        // fetch person accountable details
+        $person_accountable = DB::table("infosys.employee")->where("employee_id", $this->transfer_person)->first();
+
         $equipment = DB::table('equipment')
             ->where('equipment_id', $this->equipment_id)->update([
                     'person_accountable_id' => $this->transfer_person,
-                    'current_location_id' => $this->transfer_location,
+                    'person_accountable_unit_id' => $person_accountable->unit_unit_id,
+                    'location_id' => $this->transfer_location,
                 ]);
+
+
 
         $transfer_equipment = TransferHistory::create(
             [
                 'equipment_id' => $this->equipment_id,
                 'date_of_transfer' => now()->format('Y-m-d'),
                 'transfer_person_accountable_id' => $this->transfer_person,
+                'transfer_person_unit_id' => $person_accountable->unit_unit_id,
                 'transfer_location_id' => $this->transfer_location,
             ]
         );
@@ -67,16 +74,23 @@ class TransferEquipment extends Component
 
         $equipment = DB::connection('mysql')
             ->table('equipment')
-            ->join('equipment_type', 'equipment.equipment_type_id', '=', 'equipment_type.equipment_type_id')
-            ->join('infosys.employee', 'equipment.person_accountable_id', '=', 'infosys.employee.employee_id')
-            ->join('infosys.unit', 'equipment.current_location_id', '=', 'infosys.unit.unit_id')
-            ->select('equipment.*', 'equipment_type.equipment_name', DB::raw("CONCAT(infosys.employee.lastname,', ', infosys.employee.firstname) as name"), 'infosys.unit.unit_desc', 'infosys.unit.unit_code')->where("equipment_id", "=", $equipment_id)->get()[0];
+            ->leftJoin('equipment_type', 'equipment.equipment_type_id', '=', 'equipment_type.equipment_type_id')
+            ->leftJoin('infosys.employee', 'equipment.person_accountable_id', '=', 'infosys.employee.employee_id')
+            ->leftJoin('location', 'equipment.location_id', '=', 'location.location_id')
+            ->select(
+                'equipment.*',
+                'equipment_type.equipment_name',
+                DB::raw("CONCAT(infosys.employee.lastname,', ', infosys.employee.firstname) as name"),
+                DB::raw("location.description as location_description"),
+            )
+            ->where("equipment_id", "=", $equipment_id)
+            ->get()[0];
 
         $this->name = $equipment->name;
-        $this->location = $equipment->unit_desc;
+        $this->location = $equipment->location_description;
 
         $this->populateEmployees();
-        $this->populateUnits();
+        $this->populateLocation();
         $this->isOpen = true;
     }
 
@@ -89,11 +103,11 @@ class TransferEquipment extends Component
             ->toArray();
     }
 
-    public function populateUnits()
+
+    public function populateLocation()
     {
-        $this->units = DB::table('infosys.unit')
-            ->leftJoin('infosys.division', 'infosys.division.division_id', '=', 'infosys.unit.unit_div')
-            ->select('infosys.unit.*', 'infosys.division.division_code') // Include necessary columns
+        $this->locations = DB::table('location')
+            ->where("status", 1)
             ->get()
             ->map(fn($item) => (array) $item) // Convert to array
             ->toArray();
@@ -103,7 +117,6 @@ class TransferEquipment extends Component
     {
         $this->isOpen = false;
         $this->resetErrorBag();
-        $this->reset(); // Reset fields
     }
 
     public function render()

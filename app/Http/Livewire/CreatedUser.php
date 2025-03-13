@@ -55,6 +55,7 @@ class CreatedUser extends Component
             $this->status = "1";
             $this->employee_id = '';
             $this->populateEmployees();
+            $this->dispatchBrowserEvent('clear-employee');
         } else {
             $this->dispatchBrowserEvent('showNotification', ['title' => 'Create new user error', 'message' => 'A new user was not added to the database.', 'type' => 'error']);
         }
