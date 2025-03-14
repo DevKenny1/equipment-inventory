@@ -26,25 +26,26 @@
                             <option value="1">Active</option>
                         </select>
                     </div>
-                @endif
-                <x-bladewind::alert show_close_icon="false">
-                    Password reset is (username)-password
-                </x-bladewind::alert>
-                <div class="mb-2">
-                    <label for="password">Password</label>
-                    <div class="flex gap-2">
-                        <x-bladewind::input x-model="password" class="grow" add_clearing="false"
-                            wire:model.defer="password" id="password" placeholder="xxxxxxxxxxxxxxxxxxxxxxxx" />
-                        <x-bladewind::button x-show="password == ''" size="tiny" wire:click="resetPassword()"
-                            button_text_css="font-bold" size="small">Reset
-                        </x-bladewind::button>
-                        <x-bladewind::button x-show="password != ''" wire:click="changePassword()" button_text_css="
-                            font-bold" size="small">Change
-                        </x-bladewind::button>
+
+                    <x-bladewind::alert show_close_icon="false">
+                        Password reset is (username)-password
+                    </x-bladewind::alert>
+                    <div class="mb-2">
+                        <label for="password">Password</label>
+                        <div class="flex gap-2">
+                            <x-bladewind::input x-model="password" class="grow" add_clearing="false"
+                                wire:model.defer="password" id="password" placeholder="xxxxxxxxxxxxxxxxxxxxxxxx" />
+
+                            <x-bladewind::button x-show="password == ''" size="tiny" wire:click="resetPassword()"
+                                button_text_css="font-bold" size="small">Reset
+                            </x-bladewind::button>
+
+                            <x-bladewind::button x-show="password != ''" wire:click="changePassword()"
+                                button_text_css="font-bold" size="small">Change</x-bladewind::button>
+                        </div>
                     </div>
-                    @error('password') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
-                </div>
-                <div class="h-1 my-4 bg-zinc-300"></div>
+                @endif
+                @error('password') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
                 <div class="flex gap-2 mt-2">
 
                     <!-- delete button hidden  -->

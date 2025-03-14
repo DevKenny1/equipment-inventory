@@ -135,7 +135,7 @@ class EquipmentTab extends Component
                 return $query->where('equipment.person_accountable_id', $this->personFilter);
             })
             ->when($this->locationFilter, function ($query) {
-                return $query->where('equipment.current_location_id', $this->locationFilter);
+                return $query->where('equipment.location_id', $this->locationFilter);
             })
             ->when($this->dateFilter, function ($query) {
                 return $query->whereDate('equipment.acquired_date', $this->dateFilter);

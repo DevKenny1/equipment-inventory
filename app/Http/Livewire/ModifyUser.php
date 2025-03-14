@@ -13,7 +13,7 @@ class ModifyUser extends Component
 
     public $current_username;
     public $logged_in_employee_id;
-    public $user_id, $username, $status, $role, $password, $employee_id = '';
+    public $user_id, $username, $status, $role, $password = '', $employee_id = '';
     public $isOpen = false; // Track modal state
 
     protected $listeners = ['openEditUser']; // Listen for events from the table component
@@ -147,25 +147,26 @@ class ModifyUser extends Component
             }
         }
 
-        $user = User::find($this->user_id);
-        if ($user) {
-            $user->username = $this->username;
-            $user->status = $this->status;
-            $user->role = $this->role;
-            $user->save();
-        }
 
-        // Emit event to table component to refresh data
-        $this->emit('refreshUsers');
-
-        // Keep modal open and show success message
-        $this->dispatchBrowserEvent('showNotification', [
-            'title' => 'User Updated',
-            'message' => 'User details updated successfully.',
-            'type' => 'success'
+        $user = User::where("user_id", $this->user_id)->update([
+            'username' => $this->username,
+            'status' => $this->status,
+            'role' => $this->role,
         ]);
 
+        if ($user) {
+            // Emit event to table component to refresh data
+            $this->emit('refreshUsers');
+
+            // Keep modal open and show success message
+            $this->dispatchBrowserEvent('showNotification', [
+                'title' => 'User Updated',
+                'message' => 'User details updated successfully.',
+                'type' => 'success'
+            ]);
+        }
         $this->closeModal();
+
     }
 
     public function closeModal()
