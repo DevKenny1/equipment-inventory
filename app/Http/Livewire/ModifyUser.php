@@ -154,6 +154,7 @@ class ModifyUser extends Component
             'role' => $this->role,
         ]);
 
+        $this->password = '';
         if ($user) {
             // Emit event to table component to refresh data
             $this->emit('refreshUsers');

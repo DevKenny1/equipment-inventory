@@ -43,8 +43,8 @@ class EquipmentExport implements FromQuery, WithHeadings
                 'equipment.serial_number',
                 'equipment.mr_no',
                 DB::raw("CONCAT(infosys.employee.lastname, ', ', infosys.employee.firstname) as name"),
-                DB::raw("location.description as location_description"),
                 DB::raw("CONCAT(infosys.unit.unit_code,'/',infosys.division.division_code) as section_division"),
+                DB::raw("location.description as location_description"),
                 'equipment.acquired_date',
                 'equipment.remarks'
             )

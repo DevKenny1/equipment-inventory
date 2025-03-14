@@ -23,7 +23,7 @@
 
                     <!-- employee -->
                     <div x-data="{ searchEmployee: '', selectedEmployee: '', personFilter: '', showDropdown: false }"
-                        @clear-employee.window="selectedEmployee = ''; personFilter = ''; $wire.set('personFilter', '');">
+                        @clear-employee-filter.window="selectedEmployee = ''; personFilter = ''; $wire.set('personFilter', '');">
                         <label for="personFilter" class="text-sm">Person Accountable</label>
 
                         <!-- Custom Select -->
@@ -64,7 +64,7 @@
 
                     <!-- location -->
                     <div x-data="{ searchLocation: '', selectedLocation: '', locationFilter: '', showDropdown: false }"
-                        @clear-location.window="selectedLocation = ''; locationFilter = ''; $wire.set('locationFilter', '');">
+                        @clear-location-filter.window="selectedLocation = ''; locationFilter = ''; $wire.set('locationFilter', '');">
                         <label for="locationFilter" class="text-sm">Location</label>
 
                         <!-- Custom Select -->
@@ -103,12 +103,12 @@
 
                     <div>
                         <label for="acquired_date" class="text-sm">Acquired Date</label>
-                        <x-bladewind::input type="date" size="small" add_clearing="false" wire:model.defer="dateFilter"
+                        <x-bladewind::input type="date" size="small" add_clearing="false" wire:model="dateFilter"
                             id="acquired_date" />
                     </div>
-
+                    <!-- 
                     <x-bladewind::button size="small" can_submit="true" class="w-full mt-2"
-                        x-on:click="isFilterOpen = false">Filter</x-bladewind::button>
+                        x-on:click="isFilterOpen = false">Filter</x-bladewind::button> -->
                 </form>
             </div>
         </div>
@@ -325,7 +325,7 @@
                     <option value="serial_number">Serial number</option>
                     <option value="mr_no">MR NO</option>
                     <option value="name">Person accountable</option>
-                    <option value="acquired_date">Acquired Date</option>
+                    <option value="equipment_id">Acquired Date</option>
                     <option value="section_division">Section/Division</option>
                     <option value="location_description">Location</option>
                     <option value="remarks">Remarks</option>

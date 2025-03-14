@@ -1,5 +1,5 @@
 <nav class="flex items-center justify-end p-4 border-b-2 xs:justify-between bg-zinc-50 border-zinc-300">
-    <h1 class="hidden text-lg font-bold font-inter lg:block">Philippine National Research Institute</h1>
+    <h1 class="hidden text-lg font-bold font-inter lg:block">Philippine Nuclear Research Institute</h1>
     <h1 class="hidden text-lg font-bold xs:block font-inter lg:hidden">PNRI</h1>
     <div class="flex items-center gap-4">
         <p class="hidden font-bold xxs:block">{{$name}}@if(Auth::user()->role == 1)

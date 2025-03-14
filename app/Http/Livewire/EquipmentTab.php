@@ -32,12 +32,14 @@ class EquipmentTab extends Component
         $this->add_equipment_open = false;
     }
 
-    public function refreshTable(): void
+    public function refreshTable()
     {
         $this->personFilter = '';
         $this->locationFilter = '';
         $this->dateFilter = '';
         $this->resetPage();
+        $this->dispatchBrowserEvent("clear-employee-filter");
+        $this->dispatchBrowserEvent("clear-location-filter");
     }
 
     public function filterTable()
