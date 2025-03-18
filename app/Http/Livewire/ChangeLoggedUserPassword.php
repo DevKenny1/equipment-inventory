@@ -60,6 +60,11 @@ class ChangeLoggedUserPassword extends Component
             $this->addError("current_password", "*Password incorrect.");
             return;
         }
+        //check if current password and new password is unique
+        if (Hash::check($this->new_password, Auth::user()->password)) {
+            $this->addError("new_password", "*Current and new password must be unique.");
+            return;
+        }
 
         $this->validate();
 

@@ -35,18 +35,18 @@
                     <x-bladewind::alert show_close_icon="false">
                         Password reset is (username)-password
                     </x-bladewind::alert>
-                    <div class="mb-2">
+                    <div class="my-2">
                         <!-- <label for="password">Password</label> -->
                         <div class="flex gap-2">
                             <!-- <x-bladewind::input x-model="password" class="grow" add_clearing="false"
-                                                                                                        wire:model.defer="password" id="password" placeholder="xxxxxxxxxxxxxxxxxxxxxxxx" /> -->
+                                                                                                                wire:model.defer="password" id="password" placeholder="xxxxxxxxxxxxxxxxxxxxxxxx" /> -->
                             <!-- 
-                                                                                                <x-bladewind::button x-show="password == ''" size="tiny" wire:click="resetPassword()"
-                                                                                                    button_text_css="font-bold" size="small">Reset
-                                                                                                </x-bladewind::button> -->
+                                                                                                        <x-bladewind::button x-show="password == ''" size="tiny" wire:click="resetPassword()"
+                                                                                                            button_text_css="font-bold" size="small">Reset
+                                                                                                        </x-bladewind::button> -->
                             <!-- 
-                                                                                                    <x-bladewind::button x-show="password != ''" wire:click="changePassword()"
-                                                                                                        button_text_css="font-bold" size="small">Change</x-bladewind::button> -->
+                                                                                                            <x-bladewind::button x-show="password != ''" wire:click="changePassword()"
+                                                                                                                button_text_css="font-bold" size="small">Change</x-bladewind::button> -->
 
                             <x-bladewind::button size="tiny" wire:click="resetPassword()" button_text_css="font-bold"
                                 class="w-full" size="small">Reset Password
