@@ -38,7 +38,5 @@
     <livewire:modify-user />
     <livewire:edit-equipment-type />
     <livewire:edit-equipment />
-    <livewire:transfer-equipment />
-    <livewire:equipment-history />
     <livewire:edit-location />
 </x-app-layout>

@@ -22,13 +22,8 @@ class EquipmentHistory extends Component
 
     public $isOpen = false; // Track modal state
 
-    protected $listeners = ['openEquipmentHistory']; // Listen for events from the table component
+    protected $listeners = ['update-remarks' => 'updateRemarks', 'refresh-history' => '$refresh']; // Listen for events from the table component
 
-    public function openEquipmentHistory($equipment_id)
-    {
-        $this->equipment_id = $equipment_id;
-        $this->isOpen = true;
-    }
 
     public function getEquipmentHistoriesProperty()
     {
@@ -51,12 +46,14 @@ class EquipmentHistory extends Component
 
     public function closeModal()
     {
+        $this->equipmentHistories = null;
         $this->isOpen = false;
     }
 
-    public function mount()
+    public function mount($equipmentId)
     {
-        $this->totalEquipmentHistories = TransferHistory::count();
+        $this->equipment_id = $equipmentId;
+        $this->totalEquipmentHistories = TransferHistory::where('equipment_id', $equipmentId)->count();
     }
 
     public function render()
@@ -64,17 +61,26 @@ class EquipmentHistory extends Component
         return view('livewire.equipment-history', ['equipmentHistories' => $this->equipmentHistories]);
     }
 
-    public function func()
-    {
-        dd("hello");
-    }
 
     public function resetRemarks($equipmentHistoryId)
     {
 
     }
 
-    public function updateRemarks()
+    public function updateRemarks($id, $new_remarks)
+    {
+        $updatedRemarks = TransferHistory::where('equipment_transfer_history_id', $id)->update(['remarks' => $new_remarks]);
+
+        if ($updatedRemarks) {
+            $this->dispatchBrowserEvent('showNotification', [
+                'title' => 'Transfer remarks updated.',
+                'message' => 'Transfer remarks was successfully updated.',
+                'type' => 'success'
+            ]);
+        }
+    }
+
+    public function refreshHistory()
     {
 
     }

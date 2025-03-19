@@ -68,6 +68,7 @@ class TransferEquipment extends Component
 
             // Emit event to table component to refresh data
             $this->emit('refreshEquipment');
+            $this->emit('refresh-history');
             $this->closeModal();
         } else {
             $this->addError('transfer_person', message: '*The selected fields is the same with the current data.');
@@ -77,10 +78,8 @@ class TransferEquipment extends Component
 
     }
 
-    public function openTransferEquipment($equipment_id)
+    public function populateFields()
     {
-        $this->equipment_id = $equipment_id;
-
         $equipment = DB::connection('mysql')
             ->table('equipment')
             ->leftJoin('equipment_type', 'equipment.equipment_type_id', '=', 'equipment_type.equipment_type_id')
@@ -92,12 +91,11 @@ class TransferEquipment extends Component
                 DB::raw("CONCAT(infosys.employee.lastname,', ', infosys.employee.firstname) as name"),
                 DB::raw("location.description as location_description"),
             )
-            ->where("equipment_id", "=", $equipment_id)
+            ->where("equipment_id", "=", $this->equipment_id)
             ->get()[0];
 
         $this->name = $equipment->name;
         $this->location = $equipment->location_description;
-        $this->isOpen = true;
     }
 
     public function populateEmployees()
@@ -121,15 +119,18 @@ class TransferEquipment extends Component
 
     public function closeModal()
     {
-        $this->isOpen = false;
         $this->remarks = "";
-        $this->dispatchBrowserEvent('clear-transfer-employee');
-        $this->dispatchBrowserEvent('clear-transfer-location');
+        $this->name = $this->transfer_person;
+        $this->location = $this->transfer_location;
+        $this->transfer_person = "";
+        $this->transfer_location = "";
         $this->resetErrorBag();
     }
 
-    public function mount()
+    public function mount($equipmentId)
     {
+        $this->equipment_id = $equipmentId;
+        $this->populateFields();
         $this->populateEmployees();
         $this->populateLocation();
     }

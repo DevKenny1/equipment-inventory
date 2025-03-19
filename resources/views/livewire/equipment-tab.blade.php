@@ -262,18 +262,26 @@
                     </td>
 
                     <td>
-                        <div class="flex justify-center w-full">
-                            <button wire:click="openEquipmentHistory({{ $equipment->equipment_id }})">
+                        <div class="flex justify-center w-full" x-data="{isHistoryOpen: false}">
+                            <button x-on:click="isHistoryOpen = true">
                                 <x-bladewind::icon name="clock" class="text-blue-900" />
                             </button>
+                            <div x-show="isHistoryOpen" x-cloak>
+                                <livewire:equipment-history equipmentId="{{ $equipment->equipment_id }}"
+                                    wire:key="equipment-history-{{ $equipment->equipment_id }}" />
+                            </div>
                         </div>
                     </td>
 
                     <td>
-                        <div class="flex justify-center w-full">
-                            <button wire:click="transferEquipment({{ $equipment->equipment_id }})">
+                        <div class="flex justify-center w-full" x-data="{isTransferOpen: false}">
+                            <button x-on:click="isTransferOpen = true">
                                 <x-bladewind::icon name="arrow-uturn-right" class="text-blue-900" />
                             </button>
+                            <div x-show="isTransferOpen" x-cloak>
+                                <livewire:transfer-equipment equipmentId="{{ $equipment->equipment_id }}"
+                                    wire:key="equipment-transfer-{{ $equipment->equipment_id }}" />
+                            </div>
                         </div>
                     </td>
                     @if (Auth::user()->role == 1)

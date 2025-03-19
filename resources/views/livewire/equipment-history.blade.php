@@ -1,5 +1,5 @@
-<div x-data="{ open: @entangle('isOpen'), isEditing: false }">
-    <div x-show="open" x-cloak
+<div x-data="{  isEditing: false }">
+    <div
         class="absolute inset-0 top-0 left-0 z-40 flex items-start justify-center p-8 overflow-y-auto bg-black/50 size-full">
 
         <div class="flex flex-col gap-4 p-8 rounded-md size-full bg-zinc-50">
@@ -37,7 +37,8 @@
 
                     </x-slot>
                     @foreach ($equipmentHistories as $equipmentHistory)
-                        <tr x-data="{ isEditing: false, remarks: @js($equipmentHistory->remarks) }">
+                        <tr
+                            x-data="{ isEditing: false, remarks: @js($equipmentHistory->remarks), latestRemarks: @js($equipmentHistory->remarks)}">
                             <td>
                                 {{$loop->index + 1 + (($equipmentHistories->currentPage() - 1) * $itemPerPage)}}
                             </td>
@@ -63,7 +64,7 @@
                             </td>
 
                             <td class="flex items-start gap-1 p-0">
-                                <textarea x-bind:disabled="!isEditing" x-model="remarks"
+                                <textarea x-bind:disabled="!isEditing" x-model.defer="remarks"
                                     style="background: transparent !important; color: gray !important;" size="small"
                                     add_clearing="false"
                                     class="p-0 bg-transparent border-none resize-none grow !disabled:bg-transparent !disabled:text-black"
@@ -77,11 +78,12 @@
 
                                 <div x-show="isEditing" x-cloak>
                                     <button
+                                        x-on:click="$wire.updateRemarks(@js($equipmentHistory->equipment_transfer_history_id), remarks); latestRemarks = remarks; isEditing = false;"
                                         class="block px-2 py-1 mb-1 text-xs font-bold text-white bg-green-500 rounded-full active:scale-95">
                                         <x-bladewind::icon class="font-bold size-4" name="check" /></button>
                                     <button
                                         class="block px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full active:scale-95"
-                                        x-on:click="isEditing = false; remarks = @js($equipmentHistory->remarks)">
+                                        x-on:click="isEditing = false; remarks = latestRemarks">
                                         <x-bladewind::icon class="font-bold size-4" name="x-mark" />
                                     </button>
                                 </div>
@@ -100,7 +102,7 @@
             </div>
             <!-- table -->
             <!-- links page -->
-            <div>
+            <div class="font-nunito">
                 {{ $equipmentHistories->onEachSide(1)->links() }}
                 <div class="flex items-center w-full gap-2 mt-4 text-sm">
                     <p class="">Page: <span class="font-bold">{{ $equipmentHistories->currentPage() }}</span></p>
@@ -132,7 +134,7 @@
                     </div>
                     <!-- sort order -->
                     <!-- close button -->
-                    <x-bladewind::button x-on:click="open = false" size="small" button_text_css="font-bold"
+                    <x-bladewind::button x-on:click="isHistoryOpen = false" size="small" button_text_css="font-bold"
                         class="ml-auto">
                         close
                     </x-bladewind::button>
