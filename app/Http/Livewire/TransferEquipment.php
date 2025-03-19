@@ -10,7 +10,7 @@ class TransferEquipment extends Component
 {
     public $name, $location;
     public $transfer_person, $transfer_location;
-    public $equipment_id, $date_of_transfer, $transfer_person_accountable_id, $transfer_location_id;
+    public $equipment_id, $date_of_transfer, $transfer_person_accountable_id, $transfer_location_id, $remarks;
     public $isOpen = false; // Track modal state
 
     public $employees = [];
@@ -20,16 +20,21 @@ class TransferEquipment extends Component
 
     protected $rules = [
         'transfer_person' => 'required',
-        'transfer_location' => 'required'
+        'transfer_location' => 'required',
+        'date_of_transfer' => 'required'
     ];
 
     protected $messages = [
         "transfer_person.required" => "*Please select transfer person accountable.",
         "transfer_location.required" => "*Please select transfer location.",
+        "date_of_transfer.required" => "*Please select transfer date.",
     ];
 
     public function transferEquipment()
     {
+
+        $this->remarks = trim($this->remarks);
+
         $this->validate();
 
         // fetch person accountable details
@@ -46,10 +51,11 @@ class TransferEquipment extends Component
             $transfer_equipment = TransferHistory::create(
                 [
                     'equipment_id' => $this->equipment_id,
-                    'date_of_transfer' => now()->format('Y-m-d'),
+                    'date_of_transfer' => $this->date_of_transfer,
                     'transfer_person_accountable_id' => $this->transfer_person,
                     'transfer_person_unit_id' => $person_accountable->unit_unit_id,
                     'transfer_location_id' => $this->transfer_location,
+                    'remarks' => $this->remarks,
                 ]
             );
 
@@ -116,6 +122,7 @@ class TransferEquipment extends Component
     public function closeModal()
     {
         $this->isOpen = false;
+        $this->remarks = "";
         $this->dispatchBrowserEvent('clear-transfer-employee');
         $this->dispatchBrowserEvent('clear-transfer-location');
         $this->resetErrorBag();

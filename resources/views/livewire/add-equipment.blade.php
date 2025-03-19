@@ -175,8 +175,8 @@
 
             <div>
                 <label for="remarks" class="text-sm">Remarks</label>
-                <x-bladewind::input placeholder="Enter remarks" size="small" add_clearing="false"
-                    wire:model.defer="remarks" id="remarks" />
+                <x-bladewind::textarea placeholder="Enter remarks" size="small" add_clearing="false"
+                    wire:model.defer="remarks" id="remarks" class="resize-none" rows="3" />
                 @error('remarks') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
             </div>
 

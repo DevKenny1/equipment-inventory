@@ -63,4 +63,19 @@ class EquipmentHistory extends Component
     {
         return view('livewire.equipment-history', ['equipmentHistories' => $this->equipmentHistories]);
     }
+
+    public function func()
+    {
+        dd("hello");
+    }
+
+    public function resetRemarks($equipmentHistoryId)
+    {
+
+    }
+
+    public function updateRemarks()
+    {
+
+    }
 }

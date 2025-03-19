@@ -17,7 +17,7 @@ class TransferHistory extends Model
 
     protected $keyType = 'int'; // Specify primary key type
 
-    protected $fillable = ['equipment_id', 'date_of_transfer', 'transfer_location_id', 'transfer_person_accountable_id', 'transfer_person_unit_id'];
+    protected $fillable = ['equipment_id', 'date_of_transfer', 'transfer_location_id', 'transfer_person_accountable_id', 'transfer_person_unit_id', 'remarks'];
 
     public $timestamps = false;
 

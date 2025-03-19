@@ -1,4 +1,4 @@
-<div x-data="{ open: @entangle('isOpen') }">
+<div x-data="{ open: @entangle('isOpen'), isEditing: false }">
     <div x-show="open" x-cloak
         class="absolute inset-0 top-0 left-0 z-40 flex items-start justify-center p-8 overflow-y-auto bg-black/50 size-full">
 
@@ -30,10 +30,17 @@
                             <div>TRANSFER DATE</div>
                         </th>
 
+                        <th>
+                            <div>TRANSFER REMARKS</div>
+                        </th>
+
+
                     </x-slot>
                     @foreach ($equipmentHistories as $equipmentHistory)
-                        <tr>
-                            <td>{{$loop->index + 1 + (($equipmentHistories->currentPage() - 1) * $itemPerPage)}} </td>
+                        <tr x-data="{ isEditing: false, remarks: @js($equipmentHistory->remarks) }">
+                            <td>
+                                {{$loop->index + 1 + (($equipmentHistories->currentPage() - 1) * $itemPerPage)}}
+                            </td>
 
                             <td>
                                 {{ $equipmentHistory->name }}
@@ -48,7 +55,36 @@
                             </td>
 
                             <td>
-                                {{ $equipmentHistory->date_of_transfer }}
+                                @if($equipmentHistory->date_of_transfer !== null)
+                                    {{ $equipmentHistory->date_of_transfer }}
+                                @else
+                                    Unknown
+                                @endif
+                            </td>
+
+                            <td class="flex items-start gap-1 p-0">
+                                <textarea x-bind:disabled="!isEditing" x-model="remarks"
+                                    style="background: transparent !important; color: gray !important;" size="small"
+                                    add_clearing="false"
+                                    class="p-0 bg-transparent border-none resize-none grow !disabled:bg-transparent !disabled:text-black"
+                                    rows="3"></textarea>
+
+                                <button x-show="!isEditing"
+                                    class="block px-2 py-1 text-xs font-bold text-white bg-blue-500 rounded-full active:scale-95"
+                                    x-on:click="isEditing = true">
+                                    Edit
+                                </button>
+
+                                <div x-show="isEditing" x-cloak>
+                                    <button
+                                        class="block px-2 py-1 mb-1 text-xs font-bold text-white bg-green-500 rounded-full active:scale-95">
+                                        <x-bladewind::icon class="font-bold size-4" name="check" /></button>
+                                    <button
+                                        class="block px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full active:scale-95"
+                                        x-on:click="isEditing = false; remarks = @js($equipmentHistory->remarks)">
+                                        <x-bladewind::icon class="font-bold size-4" name="x-mark" />
+                                    </button>
+                                </div>
                             </td>
                     @endforeach
                 </x-bladewind::table>

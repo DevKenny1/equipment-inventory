@@ -24,14 +24,12 @@ class AddEquipment extends Component
         'brand' => 'max:50',
         'model' => 'max:50',
         'serial_number' => 'max:50',
-        'acquired_date' => 'required',
         'location_id' => 'required',
         'person_accountable_id' => 'required',
     ];
 
     protected $messages = [
         "equipment_type_id.required" => "*Select equipment type",
-        "acquired_date.required" => "*Select acquired date",
         "location_id.required" => "*Select location",
         "person_accountable_id.required" => "*Select person accountable",
         "brand.max" => "*Brand too long",
@@ -46,6 +44,10 @@ class AddEquipment extends Component
         $this->serial_number = trim($this->serial_number);
         $this->mr_no = trim($this->mr_no);
         $this->remarks = trim($this->remarks);
+
+        if ($this->acquired_date === "") {
+            $this->acquired_date = null;
+        }
 
         $this->validate();
 
@@ -140,7 +142,6 @@ class AddEquipment extends Component
         $this->populateEmployees();
         $this->populateLocation();
         $this->populateEquipmentTypes();
-        $this->acquired_date = Carbon::now()->format('Y-m-d');
     }
 
     public function render()

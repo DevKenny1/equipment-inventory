@@ -250,7 +250,11 @@
                     </td>
 
                     <td>
-                        {{ $equipment->acquired_date }}
+                        @if ($equipment->acquired_date)
+                            {{ $equipment->acquired_date }}
+                        @else
+                            Unknown
+                        @endif
                     </td>
 
                     <td>

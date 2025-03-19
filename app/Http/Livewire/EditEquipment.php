@@ -22,12 +22,10 @@ class EditEquipment extends Component
         'brand' => 'max:50',
         'model' => 'max:50',
         'serial_number' => 'max:50',
-        'acquired_date' => 'required',
     ];
 
     protected $messages = [
         "equipment_type_id.required" => "*Select equipment type",
-        "acquired_date.required" => "*Select acquired date",
         "brand.max" => "*Brand too long",
         "model.max" => "*Model too long",
         "serial_number.max" => "*Serial number too long",
@@ -40,6 +38,10 @@ class EditEquipment extends Component
         $this->serial_number = trim($this->serial_number);
         $this->mr_no = trim($this->mr_no);
         $this->remarks = trim($this->remarks);
+
+        if ($this->acquired_date === "") {
+            $this->acquired_date = null;
+        }
 
         $this->validate();
 
