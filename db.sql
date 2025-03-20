@@ -46,6 +46,6 @@ CREATE TABLE equipment_transfer_history(
 	date_of_transfer date NOT NULL,
     transfer_person_accountable_id int(11) NOT NULL,
     transfer_person_unit_id int(11) NOT NULL,
-    transfer_location_id int(11) NOT NULL
-    transfer_remarks text
+    transfer_location_id int(11) NOT NULL,
+    remarks text
 )

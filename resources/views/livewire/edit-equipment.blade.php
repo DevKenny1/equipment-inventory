@@ -81,7 +81,7 @@
                 <div>
                     <label for="acquired_date" class="text-sm">Acquired Date</label>
                     <x-bladewind::input type="date" size="small" add_clearing="false" wire:model.defer="acquired_date"
-                        id="acquired_date" />
+                        onkeydown="return false;" id="acquired_date" />
                     @error('acquired_date') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
                 </div>
 

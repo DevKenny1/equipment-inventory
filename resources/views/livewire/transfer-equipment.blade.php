@@ -110,7 +110,7 @@
                 <div>
                     <label for="date_of_transfer" class="text-sm">Transfer Date</label>
                     <x-bladewind::input type="date" size="small" add_clearing="false"
-                        wire:model.defer="date_of_transfer" id="date_of_transfer" />
+                        wire:model.defer="date_of_transfer" id="date_of_transfer" disabled="true" />
                     @error('date_of_transfer')
                         <small class="text-red-500">{{ $message }}</small>
                     @enderror

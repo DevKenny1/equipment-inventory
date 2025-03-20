@@ -37,6 +37,19 @@ class AddEquipment extends Component
         "serial_number.max" => "*Serial number too long",
     ];
 
+
+    protected $listeners = ['update_equipment_types', 'update_location']; // Listen for events from the table component
+
+    public function update_equipment_types()
+    {
+        $this->populateEquipmentTypes();
+    }
+
+    public function update_location()
+    {
+        $this->populateLocation();
+    }
+
     public function createEquipment()
     {
         $this->brand = trim($this->brand);
@@ -44,11 +57,6 @@ class AddEquipment extends Component
         $this->serial_number = trim($this->serial_number);
         $this->mr_no = trim($this->mr_no);
         $this->remarks = trim($this->remarks);
-
-        if ($this->acquired_date === "") {
-            $this->acquired_date = null;
-        }
-
         $this->validate();
 
         // fetch person accountable details
@@ -72,7 +80,7 @@ class AddEquipment extends Component
         $transfer_equipment = TransferHistory::create(
             [
                 'equipment_id' => $equipment->equipment_id,
-                'date_of_transfer' => now()->format('Y-m-d'),
+                'date_of_transfer' => Carbon::now()->format('Y-m-d'),
                 'transfer_person_accountable_id' => $equipment->person_accountable_id,
                 'transfer_person_unit_id' => $person_accountable->unit_unit_id,
                 'transfer_location_id' => $equipment->location_id,

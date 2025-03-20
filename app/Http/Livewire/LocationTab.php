@@ -14,7 +14,7 @@ class LocationTab extends Component
     public $totalLocations;
     public $itemPerPage = 10;
 
-    public $orderByString = 'description';
+    public $orderByString = 'location_id';
     public $orderBySort = 'desc';
 
     public $add_location_open = false;

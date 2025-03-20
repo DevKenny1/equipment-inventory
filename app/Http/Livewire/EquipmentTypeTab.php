@@ -15,8 +15,8 @@ class EquipmentTypeTab extends Component
     public $totalEquipmentTypes;
     public $itemPerPage = 10;
 
-    public $orderByString = 'equipment_name';
-    public $orderBySort = 'asc';
+    public $orderByString = 'equipment_type_id';
+    public $orderBySort = 'desc';
 
     public $add_equipment_type_open = false;
 
@@ -26,7 +26,7 @@ class EquipmentTypeTab extends Component
     {
         $this->add_equipment_type_open = false;
     }
- 
+
     public function refreshTable()
     {
         $this->resetPage();

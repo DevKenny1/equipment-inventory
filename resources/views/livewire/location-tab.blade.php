@@ -33,7 +33,9 @@
         <x-bladewind::table has_border="true" divider="thin" celled="true">
             <x-slot name="header">
                 <th>
-                    <div>#</div>
+                    <div @class([
+                        'text-blue-500 font-bold' => $orderByString == 'location_id'
+                    ])>#</div>
                 </th>
 
                 <th>
@@ -74,7 +76,7 @@
                             </button>
                         </td>
                     @endif
-            @endforeach 
+            @endforeach
         </x-bladewind::table>
 
         <!-- no data message -->
@@ -114,6 +116,7 @@
             <div>
                 Sort by:
                 <select class="px-2 w-36" wire:model="orderByString">
+                    <option value="location_id">Date Added</option>
                     <option value="description">Description</option>
                     <option value="status">Status</option>
 

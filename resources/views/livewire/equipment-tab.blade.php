@@ -119,16 +119,16 @@
         </form>
 
         <select class="px-4 py-1 rounded-md w-44 min-w-48" wire:model="searchBy">
-            <option value="equipment_name">Equipment type</option>
+            <!-- <option value="equipment_name">Equipment type</option> -->
             <option value="brand">Brand</option>
             <option value="model">Model</option>
             <option value="serial_number">Serial number</option>
             <option value="mr_no">MR NO</option>
-            <option value="lastname">Person accountable
+            <!-- <option value="lastname">Person accountable -->
             </option>
-            <option value="acquired_date">Acquired Date</option>
-            <option value="section_division">Section/Division</option>
-            <option value="location_description">Location</option>
+            <!-- <option value="acquired_date">Acquired Date</option> -->
+            <!-- <option value="section_division">Section/Division</option> -->
+            <!-- <option value="location_description">Location</option> -->
             <option value="remarks">Remarks</option>
         </select>
 
@@ -147,7 +147,11 @@
         <x-bladewind::table has_border="true" divider="thin" celled="true">
             <x-slot name="header">
                 <th>
-                    <div>#</div>
+                    <div>
+                        <div @class([
+                            'text-blue-500 font-bold' => $orderByString == 'equipment_id'
+                        ])>#</div>
+                    </div>
                 </th>
                 <th>
                     <div @class([
@@ -197,7 +201,7 @@
 
                 <th>
                     <div @class([
-                        'text-blue-500 font-bold' => $orderByString == 'equipment_id'
+                        'text-blue-500 font-bold' => $orderByString == 'acquired_date'
                     ])>ACQUIRED DATE</div>
                 </th>
 
@@ -331,13 +335,14 @@
             <div>
                 Sort by:
                 <select class="w-40 px-2" wire:model="orderByString">
+                    <option value="equipment_id">Date Added</option>
                     <option value="equipment_name">Equipment type</option>
                     <option value="brand">Brand</option>
                     <option value="model">Model</option>
                     <option value="serial_number">Serial number</option>
                     <option value="mr_no">MR NO</option>
                     <option value="name">Person accountable</option>
-                    <option value="equipment_id">Acquired Date</option>
+                    <option value="acquired_date">Acquired Date</option>
                     <option value="section_division">Section/Division</option>
                     <option value="location_description">Location</option>
                     <option value="remarks">Remarks</option>

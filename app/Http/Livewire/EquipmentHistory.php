@@ -18,7 +18,7 @@ class EquipmentHistory extends Component
 
     public $itemPerPage = 10;
 
-    public $orderBySort = 'asc';
+    public $orderBySort = 'desc';
 
     public $isOpen = false; // Track modal state
 
@@ -40,7 +40,7 @@ class EquipmentHistory extends Component
                 DB::raw("CONCAT(infosys.unit.unit_code,'/',infosys.division.division_code) as section_division"),
             )
             ->where('equipment_id', 'like', $this->equipment_id)
-            ->orderBy('equipment_transfer_history_id', $this->orderBySort)
+            ->orderBy('date_of_transfer', $this->orderBySort)
             ->paginate($this->itemPerPage);
     }
 
@@ -75,7 +75,7 @@ class EquipmentHistory extends Component
         }
     }
 
-    public function updateTransferDate($id, $new_date_of_transfer): void
+    public function updateTransferDate($id, $new_date_of_transfer)
     {
 
         if ($new_date_of_transfer === "") {
@@ -90,6 +90,7 @@ class EquipmentHistory extends Component
                 'message' => 'Transfer date was successfully updated.',
                 'type' => 'success'
             ]);
+            return redirect()->route("dashboard");
         }
     }
 

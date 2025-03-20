@@ -13,13 +13,13 @@ class AddEquipmentType extends Component
 
     protected $rules = [
         'equipment_name' => 'required|max:255',
-        'description' => 'required'
+        // 'description' => 'required'
     ];
 
     protected $messages = [
         "equipment_name.required" => "*Equipment name is required.",
         "equipment_name.max" => "*Equipment name is too long.",
-        "description.required" => "*Description is required.",
+        // "description.required" => "*Description is required.",
     ];
 
     public function createType()
@@ -50,7 +50,9 @@ class AddEquipmentType extends Component
             $this->equipment_name = '';
             $this->description = '';
             $this->emit('refreshEquipmentTypes');
+            $this->emit('update_equipment_types');
             return;
+
         }
     }
 

@@ -16,7 +16,7 @@ class EquipmentTab extends Component
     public $totalEquipments;
     public $itemPerPage = 10;
 
-    public $orderByString = 'acquired_date';
+    public $orderByString = 'equipment_id';
     public $orderBySort = 'desc';
 
     protected $listeners = ['refreshEquipment' => 'refreshTable', 'newEquipmentAdded', 'closeAddEquipment'];

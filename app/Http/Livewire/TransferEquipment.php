@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\TransferHistory;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class TransferEquipment extends Component
 {
@@ -51,7 +52,7 @@ class TransferEquipment extends Component
             $transfer_equipment = TransferHistory::create(
                 [
                     'equipment_id' => $this->equipment_id,
-                    'date_of_transfer' => $this->date_of_transfer,
+                    'date_of_transfer' => Carbon::now()->format('Y-m-d'),
                     'transfer_person_accountable_id' => $this->transfer_person,
                     'transfer_person_unit_id' => $person_accountable->unit_unit_id,
                     'transfer_location_id' => $this->transfer_location,
@@ -76,6 +77,7 @@ class TransferEquipment extends Component
             $this->dispatchBrowserEvent('clear-transfer-location');
             $this->populateFields();
             $this->closeModal();
+            return redirect()->route('dashboard');
         } else {
             $this->addError('transfer_person', message: '*The selected fields is the same with the current data.');
             $this->addError('transfer_location', '*The selected fields is the same with the current data.');
@@ -136,9 +138,11 @@ class TransferEquipment extends Component
     public function mount($equipmentId)
     {
         $this->equipment_id = $equipmentId;
+        $this->date_of_transfer = date('Y-m-d');
         $this->populateFields();
         $this->populateEmployees();
         $this->populateLocation();
+
     }
 
     public function render()

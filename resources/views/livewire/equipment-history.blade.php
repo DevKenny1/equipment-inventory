@@ -58,7 +58,7 @@
                             <td>
                                 <div>
                                     <input class="w-full rounded-md" type="date" size="small" add_clearing="false"
-                                        x-model="date_of_transfer" onkeydown="return false;"
+                                        x-model="date_of_transfer" onkeydown="return false;" readonly
                                         x-on:change="$wire.updateTransferDate(@js($equipmentHistory->equipment_transfer_history_id), date_of_transfer);" />
 
                                 </div>
