@@ -66,7 +66,7 @@
 
                 <!-- location -->
                 <div x-data="{ searchLocation: '', selectedLocation: '', transfer_location: '', showDropdown: false }"
-                    @clear-transfer-employee.window="selectedLocation = ''; transfer_location = ''; $wire.set('transfer_location', '');">
+                    @clear-transfer-location.window="selectedLocation = ''; transfer_location = ''; $wire.set('transfer_location', '');">
                     <label for="transfer_location" class="text-sm">Location</label>
 
                     <!-- Custom Select -->
@@ -128,8 +128,8 @@
                         color="red" button_text_css="font-bold" size="small" outline="true">Cancel
                     </x-bladewind::button>
 
-                    <x-bladewind::button x-on:click="isTransferOpen = false" class="w-full" can_submit="true"
-                        button_text_css="font-bold" size="small">Transfer
+                    <x-bladewind::button class="w-full" can_submit="true" button_text_css="font-bold"
+                        size="small">Transfer
                     </x-bladewind::button>
                 </div>
             </form>

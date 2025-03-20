@@ -69,6 +69,12 @@ class TransferEquipment extends Component
             // Emit event to table component to refresh data
             $this->emit('refreshEquipment');
             $this->emit('refresh-history');
+            $this->transfer_person = "";
+            $this->transfer_location = "";
+            $this->date_of_transfer = "";
+            $this->dispatchBrowserEvent('clear-transfer-employee');
+            $this->dispatchBrowserEvent('clear-transfer-location');
+            $this->populateFields();
             $this->closeModal();
         } else {
             $this->addError('transfer_person', message: '*The selected fields is the same with the current data.');
@@ -78,7 +84,7 @@ class TransferEquipment extends Component
 
     }
 
-    public function populateFields()
+    public function populateFields(): void
     {
         $equipment = DB::connection('mysql')
             ->table('equipment')
@@ -119,11 +125,11 @@ class TransferEquipment extends Component
 
     public function closeModal()
     {
-        $this->remarks = "";
-        $this->name = $this->transfer_person;
-        $this->location = $this->transfer_location;
-        $this->transfer_person = "";
-        $this->transfer_location = "";
+        // $this->remarks = "";
+        // $this->name = $this->transfer_person;
+        // $this->location = $this->transfer_location;
+        // $this->transfer_person = "";
+        // $this->transfer_location = "";
         $this->resetErrorBag();
     }
 
@@ -137,6 +143,9 @@ class TransferEquipment extends Component
 
     public function render()
     {
+        $this->populateFields();
+        $this->populateEmployees();
+        $this->populateLocation();
         return view('livewire.transfer-equipment');
     }
 }

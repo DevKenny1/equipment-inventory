@@ -87,11 +87,10 @@ class AddEquipment extends Component
                 'type' => 'success'
             ]);
 
-            $this->closeModal();
-
             // Emit event to table component to refresh data
-            $this->emit('refreshEquipment');
+            $this->emit('newEquipmentAdded');
 
+            $this->closeModal();
             return;
         }
     }
@@ -107,7 +106,7 @@ class AddEquipment extends Component
         $this->dispatchBrowserEvent('clear-employee');
         $this->dispatchBrowserEvent('clear-location');
         $this->dispatchBrowserEvent('clear-equipment-type');
-        $this->acquired_date = Carbon::now()->format('Y-m-d');
+        $this->acquired_date = "";
     }
 
     public function populateEmployees()

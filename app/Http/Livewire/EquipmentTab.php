@@ -19,7 +19,7 @@ class EquipmentTab extends Component
     public $orderByString = 'acquired_date';
     public $orderBySort = 'desc';
 
-    protected $listeners = ['refreshEquipment' => 'refreshTable', 'closeAddEquipment'];
+    protected $listeners = ['refreshEquipment' => 'refreshTable', 'newEquipmentAdded', 'closeAddEquipment'];
     public $employees = [];
     public $units = [];
 
@@ -40,6 +40,11 @@ class EquipmentTab extends Component
         $this->resetPage();
         $this->dispatchBrowserEvent("clear-employee-filter");
         $this->dispatchBrowserEvent("clear-location-filter");
+    }
+
+    public function newEquipmentAdded()
+    {
+        return redirect()->route('dashboard');
     }
 
     public function filterTable()
@@ -155,10 +160,6 @@ class EquipmentTab extends Component
     public function editItem($equipment_id)
     {
         $this->emit('openEditEquipment', $equipment_id);
-    }
-    public function transferEquipment($equipment_id)
-    {
-        $this->emit('openTransferEquipment', $equipment_id);
     }
 
     public function openEquipmentHistory($equipment_id)
