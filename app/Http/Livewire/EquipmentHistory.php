@@ -62,11 +62,6 @@ class EquipmentHistory extends Component
     }
 
 
-    public function resetRemarks($equipmentHistoryId)
-    {
-
-    }
-
     public function updateRemarks($id, $new_remarks)
     {
         $updatedRemarks = TransferHistory::where('equipment_transfer_history_id', $id)->update(['remarks' => $new_remarks]);
@@ -75,6 +70,19 @@ class EquipmentHistory extends Component
             $this->dispatchBrowserEvent('showNotification', [
                 'title' => 'Transfer remarks updated.',
                 'message' => 'Transfer remarks was successfully updated.',
+                'type' => 'success'
+            ]);
+        }
+    }
+
+    public function updateTransferDate($id, $new_date_of_transfer): void
+    {
+        $updatedRemarks = TransferHistory::where('equipment_transfer_history_id', $id)->update(['date_of_transfer' => $new_date_of_transfer]);
+
+        if ($updatedRemarks) {
+            $this->dispatchBrowserEvent('showNotification', [
+                'title' => 'Transfer date updated.',
+                'message' => 'Transfer date was successfully updated.',
                 'type' => 'success'
             ]);
         }

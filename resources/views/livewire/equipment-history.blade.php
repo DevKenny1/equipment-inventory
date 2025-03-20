@@ -38,7 +38,7 @@
                     </x-slot>
                     @foreach ($equipmentHistories as $equipmentHistory)
                         <tr
-                            x-data="{ isEditing: false, remarks: @js($equipmentHistory->remarks), latestRemarks: @js($equipmentHistory->remarks)}">
+                            x-data="{ isEditing: false, remarks: @js($equipmentHistory->remarks), latestRemarks: @js($equipmentHistory->remarks), date_of_transfer: @js($equipmentHistory->date_of_transfer)}">
                             <td>
                                 {{$loop->index + 1 + (($equipmentHistories->currentPage() - 1) * $itemPerPage)}}
                             </td>
@@ -56,11 +56,12 @@
                             </td>
 
                             <td>
-                                @if($equipmentHistory->date_of_transfer !== null)
-                                    {{ $equipmentHistory->date_of_transfer }}
-                                @else
-                                    Unknown
-                                @endif
+                                <div>
+                                    <input class="w-full rounded-md" type="date" size="small" add_clearing="false"
+                                        x-model="date_of_transfer"
+                                        x-on:change="$wire.updateTransferDate(@js($equipmentHistory->equipment_transfer_history_id), date_of_transfer);" />
+
+                                </div>
                             </td>
 
                             <td class="flex items-start gap-1 p-0">
