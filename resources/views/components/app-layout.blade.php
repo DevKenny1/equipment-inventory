@@ -43,6 +43,12 @@
 
     </script>
 
+    <script>
+        document.addEventListener('refresh-alpine', () => {
+            Alpine.initTree(document.body);
+        });
+    </script>
+
 </body>
 
 </html>

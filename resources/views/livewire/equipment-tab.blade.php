@@ -296,6 +296,7 @@
                             </button>
                         </td>
                     @endif
+                </tr>
             @endforeach
         </x-bladewind::table>
 
