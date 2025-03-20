@@ -13,7 +13,7 @@ class PageController extends Controller
 
     public function viewDashboardPage()
     {
-        return view('livewire.dashboard');
+        return view('pages.dashboard');
     }
 
     public function viewCreateUser()

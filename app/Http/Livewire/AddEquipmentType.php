@@ -51,7 +51,7 @@ class AddEquipmentType extends Component
             $this->description = '';
             $this->emit('refreshEquipmentTypes');
             $this->emit('update_equipment_types');
-            return;
+            return redirect()->route('dashboard', ['tab' => 'equipment_types']);
 
         }
     }

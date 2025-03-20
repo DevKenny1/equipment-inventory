@@ -40,7 +40,8 @@ class AddLocation extends Component
             $this->closeModal();
             $this->emit('refreshLocations');
             $this->description = '';
-            return;
+            return redirect()->route('dashboard', ['tab' => 'location']);
+
         }
         $this->dispatchBrowserEvent('showNotification', [
             'title' => 'New Location',

@@ -7,7 +7,7 @@
 
 @layer base{
     body{
-        @apply text-zinc-700  bg-zinc-50 font-nunito;
+        @apply text-zinc-700 bg-zinc-50 font-nunito;
         background-image: radial-gradient(circle, #fafafa, #f0f0f2, #e6e7ea, #dcdee3, #d1d5db);
     }
 }
@@ -18,11 +18,11 @@
     }
 
     .hide-sidebar{
-        @apply -translate-x-full;
+        @apply !-translate-x-full;
     }
 
     .show-sidebar{
-        @apply translate-x-0;
+        @apply !translate-x-0;
     }
 }
 

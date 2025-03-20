@@ -1,4 +1,4 @@
-<div class="absolute top-0 left-0 z-10 flex flex-col h-full gap-8 py-4 pr-1 transition-transform border-r-2 hide-sidebar w-80 bg-zinc-50 border-zinc-300"
+<div class="absolute top-0 left-0 z-10 flex flex-col h-full gap-8 py-4 pr-1 transition-transform translate-x-0 border-r-2 hide-sidebar w-80 bg-zinc-50 border-zinc-300"
     :class="isSidebarOpen ? 'show-sidebar' : 'hide-sidebar'">
     <!-- Sidebar header -->
     <div class="flex items-center justify-between px-8">
@@ -15,21 +15,21 @@
         <!-- Items -->
         <button :class="activeTab == 'equipment' && 'active-tab'"
             class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'equipment'">
+            x-on:click="changeTab('equipment')">
             <x-bladewind::icon name="archive-box" />
             <span>Items</span>
         </button>
         <!-- Locations -->
         <button :class="activeTab == 'location' && 'active-tab'"
             class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'location'">
+            x-on:click="changeTab('location')">
             <x-bladewind::icon name="map-pin" />
             <span>Locations</span>
         </button>
         <!-- Equipment Type -->
         <button :class="activeTab == 'equipment_types' && 'active-tab'"
             class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'equipment_types'">
+            x-on:click="changeTab('equipment_types')">
             <x-bladewind::icon name="computer-desktop" />
             <span>Equipment Types</span>
         </button>
@@ -37,7 +37,7 @@
         @if (Auth::user()->role == 1)
             <button :class="activeTab == 'users' && 'active-tab'"
                 class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-                @click="activeTab = 'users'">
+                x-on:click="changeTab('users')">
                 <x-bladewind::icon name="users" />
                 <span>Users</span>
             </button>

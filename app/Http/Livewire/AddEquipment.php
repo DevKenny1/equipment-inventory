@@ -37,19 +37,6 @@ class AddEquipment extends Component
         "serial_number.max" => "*Serial number too long",
     ];
 
-
-    protected $listeners = ['update_equipment_types', 'update_location']; // Listen for events from the table component
-
-    public function update_equipment_types()
-    {
-        $this->populateEquipmentTypes();
-    }
-
-    public function update_location()
-    {
-        $this->populateLocation();
-    }
-
     public function createEquipment()
     {
         $this->brand = trim($this->brand);
