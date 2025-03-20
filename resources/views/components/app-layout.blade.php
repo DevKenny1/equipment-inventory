@@ -17,8 +17,11 @@
     {{ $slot }}
     <x-bladewind::notification />
     <livewire:change-logged-user-password />
-    @livewireScripts
     <script>
+        document.addEventListener('refresh-alpine', () => {
+            Alpine.initTree(document.body);
+        });
+
         window.addEventListener('showNotification', function (event) {
             showNotification(event.detail.title,
                 event.detail.message,
@@ -42,13 +45,7 @@
         });
 
     </script>
-
-    <script>
-        document.addEventListener('refresh-alpine', () => {
-            Alpine.initTree(document.body);
-        });
-    </script>
-
+    @livewireScripts
 </body>
 
 </html>

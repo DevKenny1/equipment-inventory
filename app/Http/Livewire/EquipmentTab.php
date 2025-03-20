@@ -27,6 +27,11 @@ class EquipmentTab extends Component
 
     public $add_equipment_open = false;
 
+    public function updated()
+    {
+        $this->dispatchBrowserEvent('refresh-alpine');
+    }
+
 
     public function closeAddEquipment()
     {
@@ -41,7 +46,6 @@ class EquipmentTab extends Component
         $this->resetPage();
         $this->dispatchBrowserEvent("clear-employee-filter");
         $this->dispatchBrowserEvent("clear-location-filter");
-        $this->dispatchBrowserEvent('refresh-alpine');
     }
 
     public function newEquipmentAdded()
@@ -63,6 +67,7 @@ class EquipmentTab extends Component
     {
         $this->searchString = "";
         $this->refreshTable();
+
     }
 
     public function populateEmployees()
