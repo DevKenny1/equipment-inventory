@@ -77,6 +77,11 @@ class EquipmentHistory extends Component
 
     public function updateTransferDate($id, $new_date_of_transfer): void
     {
+
+        if ($new_date_of_transfer === "") {
+            $new_date_of_transfer = null;
+        }
+
         $updatedRemarks = TransferHistory::where('equipment_transfer_history_id', $id)->update(['date_of_transfer' => $new_date_of_transfer]);
 
         if ($updatedRemarks) {
